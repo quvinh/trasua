@@ -24,6 +24,9 @@ class DatabaseSeeder extends Seeder
             'username' => 'admin',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('admin123'),
+            'phone' => '0962334135',
+            'gender' => 1,
+            'address' => 'Chiến Thắng, An Lão, Hải Phòng',
         ]);
 
         User::create([
@@ -31,6 +34,9 @@ class DatabaseSeeder extends Seeder
             'username' => 'user',
             'email' => 'user@gmail.com',
             'password' => bcrypt('admin123'),
+            'phone' => '0962334135',
+            'gender' => 1,
+            'address' => 'Chiến Thắng, An Lão, Hải Phòng',
         ]);
 
         // Reset cached roles and permissions

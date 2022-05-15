@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\Auth\AdminController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\BillController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\FormulaController;
 use App\Http\Controllers\Admin\HomeController;
@@ -19,6 +21,7 @@ Route::middleware('auth:admin')->group(function (){
 
     // Product
     Route::get('/add-product', [ProductController::class, 'addProduct'])->name('admin.add-product');
+    Route::post('/add-product', [ProductController::class, 'storeProduct'])->name('admin.store-product');
     Route::get('/manage-product', [ProductController::class, 'manageProduct'])->name('admin.manage-product');
 
     // Formular
@@ -41,12 +44,25 @@ Route::middleware('auth:admin')->group(function (){
     // Shop
     Route::get('/revenue', [ShopController::class, 'revenue'])->name('admin.revenue');
     Route::get('/expense', [ShopController::class, 'expense'])->name('admin.expense');
+    Route::get('/branch', [ShopController::class, 'branch'])->name('admin.branch');
 
     // Table
     Route::get('/manage-table', [TableController::class, 'table'])->name('admin.table');
 
+    // Category
+    Route::get('/category', [CategoryController::class, 'category'])->name('admin.category');
+    Route::post('/category', [CategoryController::class, 'addCategory'])->name('admin.add-category');
+    Route::post('/size', [CategoryController::class, 'addSize'])->name('admin.add-size');
+    Route::get('/unit', [CategoryController::class, 'unit'])->name('admin.unit');
+    Route::post('/unit', [CategoryController::class, 'addUnit'])->name('admin.add-unit');
+
     // System
-    Route::get('/user', [SystemController::class, 'user'])->name('admin.user');
+    Route::get('/user', [AdminController::class, 'user'])->name('admin.user');
+    Route::post('/user', [AdminController::class, 'addUser'])->name('admin.add-user');
+    Route::get('/user/{id}', [AdminController::class, 'getUser'])->name('admin.get-user');
+    Route::put('/user/{id}', [AdminController::class, 'roleUser'])->name('admin.role-user');
+    Route::get('/user/delete/{id}', [AdminController::class, 'deleteUser'])->name('admin.delete-user');
+
     Route::get('/role', [SystemController::class, 'role'])->name('admin.role');
     Route::post('/role', [SystemController::class, 'addRole'])->name('admin.add-role');
     Route::get('/role/{id}', [SystemController::class, 'getRole'])->name('admin.get-role');

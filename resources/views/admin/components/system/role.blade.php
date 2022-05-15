@@ -25,6 +25,20 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
+                    @if(session()->has('success'))
+                        <div id="alert-success">
+                            <div class="alert alert-success" style="text-align: center; font-size: 20px; font-weight: bold;">
+                                {{ session()->get('success') }}
+                            </div>
+                        </div>
+                        <script>
+                            function timedOut() {
+                                document.getElementById("alert-success").innerHTML = "";
+                            }
+                            // set a timer
+                            setTimeout( timedOut , 3000 );
+                        </script>
+                    @endif
                     <!-- jquery validation -->
                     <div class="card card-primary card-outline">
                         <div class="card-header">
@@ -38,20 +52,6 @@
                         <!-- /.card-header -->
                         <!-- form start -->
                         <div class="card-body">
-                            @if(session()->has('success'))
-                                <div id="alert-success">
-                                    <div class="alert alert-success" style="text-align: center;">
-                                        <p>{{ session()->get('success') }}</p>
-                                    </div>
-                                </div>
-                                <script>
-                                    function timedOut() {
-                                        document.getElementById("alert-success").innerHTML = "";
-                                    }
-                                    // set a timer
-                                    setTimeout( timedOut , 2000 );
-                                </script>
-                            @endif
                             <form action="{{ route('admin.add-role') }}" method="post">
                                 @csrf
                                 <div class="row">
@@ -83,7 +83,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table id="example2" class="table table-bordered table-hover">
+                            <table id="tableRole" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th style="width: 5px;">STT</th>
@@ -135,6 +135,18 @@
 @endsection
 
 @section('script')
-    <script type="text/javascript">
+    @include('admin.layouts.scriptDataTable')
+    <script>
+        $(function() {
+            $('#tableRole').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        })
     </script>
 @endsection

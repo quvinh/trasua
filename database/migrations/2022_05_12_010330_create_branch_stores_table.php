@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSizesTable extends Migration
+class CreateBranchStoresTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateSizesTable extends Migration
      */
     public function up()
     {
-        Schema::create('sizes', function (Blueprint $table) {
+        Schema::create('branch_stores', function (Blueprint $table) {
             // $table->id();
-            // $table->timestamps();
-            $table->bigIncrements('id_size');
-            $table->string('name');
-            $table->float('capacity');
-            $table->text('desciption')->nullable();
-            $table->softDeletes();
+            $table->bigIncrements('id_branch');
+            $table->bigInteger('id_user');
+            $table->string('name_branch');
+            $table->timestamps();
         });
     }
 
@@ -31,6 +29,6 @@ class CreateSizesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sizes');
+        Schema::dropIfExists('branch_stores');
     }
 }

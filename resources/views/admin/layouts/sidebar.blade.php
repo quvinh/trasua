@@ -41,6 +41,7 @@
             $store = in_array($url, array('store', 'import', 'coupon'));
             $shop = in_array($url, array('revenue', 'expense'));
             $sys = in_array($url, array('user', 'role', 'log'));
+            $cat = in_array($url, array('category', 'unit'));
         @endphp
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview" role="menu">
@@ -199,6 +200,12 @@
                                 <p>Chi phí</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.branch') }}" class="nav-link {{ $url=='branch'?'active':'' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Chi nhánh</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -206,6 +213,29 @@
                         <i class="far fa-user nav-icon"></i>
                         <p>Khách hàng</p>
                     </a>
+                </li>
+                <li class="nav-item {{ $cat?'menu-open':'' }}">
+                    <a href="#" class="nav-link {{ $cat?'active':'' }}">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Danh mục
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.category') }}" class="nav-link {{ $url=='category'?'active':'' }} ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Loại - Kích thước</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.unit') }}" class="nav-link {{ $url=='unit'?'active':'' }} ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Đơn vị tính</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item {{ $sys?'menu-open':'' }}">
                     <a href="#" class="nav-link {{ $sys?'active':'' }}">

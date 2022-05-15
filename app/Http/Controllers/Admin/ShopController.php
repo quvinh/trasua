@@ -16,4 +16,9 @@ class ShopController extends Controller
     {
         return view('admin.components.shop.expense');
     }
+
+    public function branch()
+    {
+        return view('admin.components.shop.branch');
+    }
 }

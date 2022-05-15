@@ -11,12 +11,6 @@ use Spatie\Permission\Models\Role;
 
 class SystemController extends Controller
 {
-    public function user()
-    {
-        $list = Admin::all();
-        return view('admin.components.system.user', compact('list'));
-    }
-
     public function role()
     {
         $list = Role::all();
