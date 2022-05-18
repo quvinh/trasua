@@ -23,6 +23,9 @@ Route::middleware('auth:admin')->group(function (){
     Route::get('/add-product', [ProductController::class, 'addProduct'])->name('admin.add-product');
     Route::post('/add-product', [ProductController::class, 'storeProduct'])->name('admin.store-product');
     Route::get('/manage-product', [ProductController::class, 'manageProduct'])->name('admin.manage-product');
+    Route::get('/edit-product/{id}', [ProductController::class, 'editProduct'])->name('admin.edit-product');
+    Route::put('/update-product/{id}', [ProductController::class, 'updateProduct'])->name('admin.update-product');
+    Route::get('/delete-product/{id}', [ProductController::class, 'deleteProduct'])->name('admin.delete-product');
 
     // Formular
     Route::get('/add-formula', [FormulaController::class, 'addFormula'])->name('admin.add-formula');
@@ -48,6 +51,11 @@ Route::middleware('auth:admin')->group(function (){
 
     // Table
     Route::get('/manage-table', [TableController::class, 'table'])->name('admin.table');
+    Route::get('/get-table', [TableController::class, 'getTable'])->name('admin.get-table');
+    Route::post('/manage-table', [TableController::class, 'storeTable'])->name('admin.store-table');
+    Route::get('/edit-table/{id}', [TableController::class, 'editTable'])->name('admin.edit-table');
+    Route::put('/update-table', [TableController::class, 'updateTable'])->name('admin.update-table');
+    Route::delete('/delete-table/{id}', [TableController::class, 'deleteTable'])->name('admin.delete-table');
 
     // Category
     Route::get('/category', [CategoryController::class, 'category'])->name('admin.category');
@@ -61,12 +69,12 @@ Route::middleware('auth:admin')->group(function (){
     Route::post('/user', [AdminController::class, 'addUser'])->name('admin.add-user');
     Route::get('/user/{id}', [AdminController::class, 'getUser'])->name('admin.get-user');
     Route::put('/user/{id}', [AdminController::class, 'roleUser'])->name('admin.role-user');
-    Route::get('/user/delete/{id}', [AdminController::class, 'deleteUser'])->name('admin.delete-user');
+    Route::delete('/user/delete/{id}', [AdminController::class, 'deleteUser'])->name('admin.delete-user');
 
     Route::get('/role', [SystemController::class, 'role'])->name('admin.role');
     Route::post('/role', [SystemController::class, 'addRole'])->name('admin.add-role');
     Route::get('/role/{id}', [SystemController::class, 'getRole'])->name('admin.get-role');
     Route::put('/role/{id}', [SystemController::class, 'updateRole'])->name('admin.update-role');
-    Route::get('/role/delete/{id}', [SystemController::class, 'deleteRole'])->name('admin.delete-role');
+    Route::delete('/role/delete/{id}', [SystemController::class, 'deleteRole'])->name('admin.delete-role');
     Route::get('/log', [SystemController::class, 'log'])->name('admin.log');
 });

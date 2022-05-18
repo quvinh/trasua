@@ -67,14 +67,15 @@
                             $unit = DB::table('units')->get();
                         @endphp
                         <div class="card-body">
-                            <form action="{{ route('admin.store-product') }}" method="post" enctype="multipart/form-data">
+                            <form action="{{ route('admin.update-product', $product->id_product) }}" method="post" enctype="multipart/form-data">
                                 @csrf
+                                @method('put')
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Tên sản phẩm</label>
                                             <input type="text" name="name" class="form-control" id="name"
-                                                placeholder="Nhập tên sản phẩm" required>
+                                                placeholder="Nhập tên sản phẩm" value="{{ $product->name }}" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -83,7 +84,11 @@
                                             <select class="form-control select2bs4" style="width: 100%;" name="id_category">
                                                 <option>--Loại--</option>
                                                 @foreach($category as $item)
-                                                    <option value="{{ $item->id_category }}">{{ $item->name }}</option>
+                                                    @if($item->id_category!=$product->id_category)
+                                                        <option value="{{ $item->id_category }}">{{ $item->name }}</option>
+                                                    @else
+                                                        <option value="{{ $item->id_category }}" selected>{{ $item->name }}</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>
@@ -94,7 +99,11 @@
                                             <select class="form-control select2bs4" style="width: 100%;" name="id_size">
                                                 <option>--Kích thước--</option>
                                                 @foreach($size as $item)
-                                                    <option value="{{ $item->id_size }}">{{ $item->name }} - {{ $item->capacity }}</option>
+                                                    @if($item->id_size!=$product->id_size)
+                                                        <option value="{{ $item->id_size }}">{{ $item->name }} - {{ $item->capacity }}</option>
+                                                    @else
+                                                        <option value="{{ $item->id_size }}" selected>{{ $item->name }} - {{ $item->capacity }}</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>
@@ -105,7 +114,11 @@
                                             <select class="form-control select2bs4" style="width: 100%;" name="unit">
                                                 <option>--ĐVT--</option>
                                                 @foreach($unit as $item)
-                                                    <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                                    @if($item->name!=$product->unit)
+                                                        <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                                    @else
+                                                        <option value="{{ $item->name }}" selected>{{ $item->name }}</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>
@@ -114,7 +127,7 @@
                                         <div class="form-group">
                                             <label>Đơn giá (VND)</label>
                                             <input type="number" min="0" name="price" class="form-control" id="price"
-                                                placeholder="Nhập đơn giá" required>
+                                                placeholder="Nhập đơn giá" value="{{ $product->price }}" required>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -131,14 +144,18 @@
                                         </div>
                                     </div>
                                     <div class="col-md-3" style="text-align: center;">
+                                        @if($product->image!='')
+                                        <img id="image-choosen" src="{{ asset('images/product/'.$product->image) }}" alt="IMAGE" width="128" style="border: 2px solid rgb(100, 66, 255); padding: 5px; border-radius: 4px;">
+                                        @else
                                         <img id="image-choosen" src="{{ asset('images/system/No_image_available.png') }}" alt="IMAGE" width="128" style="border: 2px solid rgb(100, 66, 255); padding: 5px; border-radius: 4px;">
+                                        @endif
                                     </div>
                                     <div class="col-md-6">
                                         <label>Ghi chú</label>
-                                        <textarea class="form-control" rows="3" placeholder="Ghi chú" name="description"></textarea>
+                                        <textarea class="form-control" rows="3" placeholder="Ghi chú" name="description">{{ $product->description }}</textarea>
                                     </div>
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Thêm mới</button>
+                                        <button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i> Cập nhật</button>
                                     </div>
                                 </div>
                             </form>

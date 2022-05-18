@@ -40,6 +40,20 @@
                                 </button>
                             </div>
                         </div>
+                        @if(session()->has('success'))
+                            <div id="alert-success">
+                                <div class="alert alert-success" style="text-align: center; font-size: 20px; font-weight: bold;">
+                                    {{ session()->get('success') }}
+                                </div>
+                            </div>
+                            <script>
+                                function timedOut() {
+                                    document.getElementById("alert-success").innerHTML = "";
+                                }
+                                // set a timer
+                                setTimeout( timedOut , 3000 );
+                            </script>
+                        @endif
                         <!-- /.card-header -->
                         <div class="card-body">
                             <table id="tableProduct" class="table table-bordered table-hover">
@@ -57,7 +71,7 @@
                                     @foreach($product as $key => $item)
                                         <tr>
                                             <td>{{ $key+1 }}</td>
-                                            <td>{{ $item->id_product }}</td>
+                                            <td>{{ str_pad($item->id_product, 5, '0', STR_PAD_LEFT) }}</td>
                                             <td>
                                                 @if($item->image != null)
                                                     <img src="{{ asset('images/product/'.$item->image) }}" alt="IMAGE" width="32">
@@ -65,13 +79,12 @@
                                                 <img src="{{ asset('images/system/No_image_available.png') }}" alt="IMAGE" width="32">
                                                 @endif
                                             </td>
-                                            <td>{{ $item->name }}</td>
-                                            <td>{{ $item->price }}</td>
-                                            <td><span class="badge badge-primary" style="font-size: 18px;">{{ $item->name }}</span></td>
+                                            <td><a href="{{ route('admin.edit-product', $item->id_product) }}"><i>{{ $item->name }}</i></a></td>
+                                            <td>{{ number_format($item->price, 0, '', ','); }}</td>
                                             <td>
-                                                <a class="btn btn-success btn-sm" href="#"><i class="fas fa-eye"></i>
+                                                <a class="btn btn-success btn-sm" href="{{ route('admin.edit-product', $item->id_product) }}"><i class="fas fa-eye"></i>
                                                     Xem</a>
-                                                <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i>
+                                                <a href="{{ route('admin.delete-product', $item->id_product) }}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i>
                                                     Xoá</a>
                                             </td>
                                         </tr>
@@ -107,15 +120,19 @@
     @include('admin.layouts.scriptDataTable')
     <script>
         $(function() {
-            $('#tableProduct').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-            });
+            // $('#tableProduct').DataTable({
+            //     "paging": true,
+            //     "lengthChange": false,
+            //     "searching": false,
+            //     "ordering": true,
+            //     "info": true,
+            //     "autoWidth": false,
+            //     "responsive": true,
+            // });
+            $("#tableProduct").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#tableProduct_wrapper .col-md-6:eq(0)');
         })
     </script>
 @endsection
