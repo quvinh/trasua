@@ -41,7 +41,7 @@ class TableController extends Controller
         Table::create(array_merge(
             $validator->validated(),
             [
-                'status' => -1,
+                'status' => 0,
             ]
         ));
 
@@ -55,7 +55,11 @@ class TableController extends Controller
     public function editTable($id)
     {
         $table = DB::table('tables')->where('id_table', $id)->first();
-        return view('admin.components.table.edit', compact('table'));
+        // return view('admin.components.table.edit', compact('table'));
+        return response()->json([
+            'status' => 'success',
+            'table' => $table,
+        ]);
     }
 
     public function updateTable(Request $request, $id)
@@ -68,7 +72,6 @@ class TableController extends Controller
         if($validator->fails()) {
             return redirect()->back()->withErrors($validator);
         }
-
         Table::where('id_table', $id)->update(array_merge(
             $validator->validated(),
             [
@@ -76,7 +79,11 @@ class TableController extends Controller
             ]
         ));
 
-        return redirect()->back()->with('success', 'Thêm bàn thành công');
+        // return redirect()->back()->with('success', 'Thêm bàn thành công');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Cập nhật bàn thành công',
+        ]);
     }
 
     public function deleteTable($id)

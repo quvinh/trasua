@@ -54,7 +54,7 @@ Route::middleware('auth:admin')->group(function (){
     Route::get('/get-table', [TableController::class, 'getTable'])->name('admin.get-table');
     Route::post('/manage-table', [TableController::class, 'storeTable'])->name('admin.store-table');
     Route::get('/edit-table/{id}', [TableController::class, 'editTable'])->name('admin.edit-table');
-    Route::put('/update-table', [TableController::class, 'updateTable'])->name('admin.update-table');
+    Route::put('/update-table/{id}', [TableController::class, 'updateTable'])->name('admin.update-table');
     Route::delete('/delete-table/{id}', [TableController::class, 'deleteTable'])->name('admin.delete-table');
 
     // Category
