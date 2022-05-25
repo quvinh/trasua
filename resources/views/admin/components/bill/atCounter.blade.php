@@ -1,8 +1,8 @@
 @extends('admin.layouts.app')
 
 @section('css')
-<!-- Ekko Lightbox -->
-<link rel="stylesheet" href="{{ asset('plugins/ekko-lightbox/ekko-lightbox.css') }}">
+<!-- SweetAlert2 -->
+<link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
 @endsection
 
 @section('content')
@@ -24,160 +24,155 @@
     </section>
     <section class="content">
         <div class="container-fluid">
-            <div class="col-12">
-                <div class="card card-primary">
-                    <div class="card-header">
-                        <h4 class="card-title">FilterizR Gallery with Ekko Lightbox</h4>
-                    </div>
-                    <div class="card-body">
-                        <div>
-                            <div class="btn-group w-100 mb-2">
-                                <a class="btn btn-info active" href="javascript:void(0)" data-filter="all"> All items
-                                </a>
-                                <a class="btn btn-info" href="javascript:void(0)" data-filter="1"> Category 1 (WHITE)
-                                </a>
-                                <a class="btn btn-info" href="javascript:void(0)" data-filter="2"> Category 2 (BLACK)
-                                </a>
-                                <a class="btn btn-info" href="javascript:void(0)" data-filter="3"> Category 3 (COLORED)
-                                </a>
-                                <a class="btn btn-info" href="javascript:void(0)" data-filter="4"> Category 4 (COLORED,
-                                    BLACK) </a>
+            <div class="d-flex justify-content-around" style="margin-bottom:2px;">
+                <h5><span class="badge badge-primary">Sản phẩm chờ: <b class="badge badge-secondary" style="font-size:16px;">10</b></span></h5>
+                <h5><span class="badge badge-warning">Chưa thanh toán: <b class="badge badge-secondary" style="font-size:16px;">10</b></span></h5>
+                <h5><span class="badge badge-success">Bán ra: <b class="badge badge-secondary" style="font-size:16px;">10</b></span></h5>
+            </div>
+            <div class="card card-primary card-tabs">
+                <div class="card-header p-0 pt-1">
+                    <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+                        <li class="pt-2 px-3">
+                            <h3 class="card-title"><i class="fas fa-table"></i></h3>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" id="tab-table" data-toggle="pill" href="#tab-table1" role="tab" aria-controls="tab-table1" aria-selected="true">Danh sách</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="tab-table-config" data-toggle="pill" href="#tab-table2" role="tab" aria-controls="tab-table2" aria-selected="false">
+                                Thiết lập
+                                <!-- <span class="badge badge-danger" style="position:absolute;">10</span> -->
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-two-tabContent">
+                        <div class="tab-pane fade show active" id="tab-table1" role="tabpanel" aria-labelledby="tab-table">
+                            <div id="list-product" class="row">
                             </div>
-                            <div class="mb-2">
-                                <a class="btn btn-secondary" href="javascript:void(0)" data-shuffle> Shuffle items </a>
-                                <div class="float-right">
-                                    <select class="custom-select" style="width: auto;" data-sortOrder>
-                                        <option value="index"> Sort by Position </option>
-                                        <option value="sortData"> Sort by Custom Data </option>
-                                    </select>
-                                    <div class="btn-group">
-                                        <a class="btn btn-default" href="javascript:void(0)" data-sortAsc> Ascending
-                                        </a>
-                                        <a class="btn btn-default" href="javascript:void(0)" data-sortDesc> Descending
-                                        </a>
+                        </div>
+                        <div class="tab-pane fade" id="tab-table2" role="tabpanel" aria-labelledby="tab-table-config">
+                            <div class="card card-primary card-outline">
+                                <div class="card-header">
+                                    <h3 class="card-title">Danh sách <small>Sản phẩm</small></h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="filter-container p-0 row">
-                                <div class="filtr-item col-sm-2" data-category="1" data-sort="white sample">
-                                    <a href="https://via.placeholder.com/1200/FFFFFF.png?text=1" data-toggle="lightbox"
-                                        data-title="sample 1 - white">
-                                        <img src="https://via.placeholder.com/300/FFFFFF?text=1" class="img-fluid mb-2"
-                                            alt="white sample" />
-                                    </a>
-                                </div>
-                                <div class="filtr-item col-sm-2" data-category="2, 4" data-sort="black sample">
-                                    <a href="https://via.placeholder.com/1200/000000.png?text=2" data-toggle="lightbox"
-                                        data-title="sample 2 - black">
-                                        <img src="https://via.placeholder.com/300/000000?text=2" class="img-fluid mb-2"
-                                            alt="black sample" />
-                                    </a>
-                                </div>
-                                <div class="filtr-item col-sm-2" data-category="3, 4" data-sort="red sample">
-                                    <a href="https://via.placeholder.com/1200/FF0000/FFFFFF.png?text=3"
-                                        data-toggle="lightbox" data-title="sample 3 - red">
-                                        <div class="card img-fluid mb-2">
-                                            <img src="https://via.placeholder.com/100/FF0000/FFFFFF?text=3"
-                                            class="" alt="red sample" />
-                                            <button>+</button>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <label>(*) Thêm bàn</label>
+                                    <ul id="error-store"></ul>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" name="name" class="form-control" id="name" placeholder="Nhập tên bàn">
+                                            </div>
                                         </div>
-                                    </a>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="number" min="0" max="20" name="amount" class="form-control" id="amount" placeholder="Số chỗ">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button type="button" id="button-store" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Thêm mới</button>
+                                        </div>
+                                    </div>
+                                    <label>- Danh sách</label>
+                                    <table id="table2" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 5px;">STT</th>
+                                                <th>ID</th>
+                                                <th>Tên</th>
+                                                <th>Số chỗ</th>
+                                                <th>Hiển thị</th>
+                                                <th>Thao tác</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th style="width: 5px;">STT</th>
+                                                <th>ID</th>
+                                                <th>Tên</th>
+                                                <th>Số chỗ</th>
+                                                <th>Hiển thị</th>
+                                                <th>Thao tác</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
                                 </div>
-                                <div class="filtr-item col-sm-2" data-category="3, 4" data-sort="red sample">
-                                    <a href="https://via.placeholder.com/1200/FF0000/FFFFFF.png?text=4"
-                                        data-toggle="lightbox" data-title="sample 4 - red">
-                                        <img src="https://via.placeholder.com/300/FF0000/FFFFFF?text=4"
-                                            class="img-fluid mb-2" alt="red sample" />
-                                    </a>
-                                </div>
-                                <div class="filtr-item col-sm-2" data-category="2, 4" data-sort="black sample">
-                                    <a href="https://via.placeholder.com/1200/000000.png?text=5" data-toggle="lightbox"
-                                        data-title="sample 5 - black">
-                                        <img src="https://via.placeholder.com/300/000000?text=5" class="img-fluid mb-2"
-                                            alt="black sample" />
-                                    </a>
-                                </div>
-                                <div class="filtr-item col-sm-2" data-category="1" data-sort="white sample">
-                                    <a href="https://via.placeholder.com/1200/FFFFFF.png?text=6" data-toggle="lightbox"
-                                        data-title="sample 6 - white">
-                                        <img src="https://via.placeholder.com/300/FFFFFF?text=6" class="img-fluid mb-2"
-                                            alt="white sample" />
-                                    </a>
-                                </div>
-                                <div class="filtr-item col-sm-2" data-category="1" data-sort="white sample">
-                                    <a href="https://via.placeholder.com/1200/FFFFFF.png?text=7" data-toggle="lightbox"
-                                        data-title="sample 7 - white">
-                                        <img src="https://via.placeholder.com/300/FFFFFF?text=7" class="img-fluid mb-2"
-                                            alt="white sample" />
-                                    </a>
-                                </div>
-                                <div class="filtr-item col-sm-2" data-category="2, 4" data-sort="black sample">
-                                    <a href="https://via.placeholder.com/1200/000000.png?text=8" data-toggle="lightbox"
-                                        data-title="sample 8 - black">
-                                        <img src="https://via.placeholder.com/300/000000?text=8" class="img-fluid mb-2"
-                                            alt="black sample" />
-                                    </a>
-                                </div>
-                                <div class="filtr-item col-sm-2" data-category="3, 4" data-sort="red sample">
-                                    <a href="https://via.placeholder.com/1200/FF0000/FFFFFF.png?text=9"
-                                        data-toggle="lightbox" data-title="sample 9 - red">
-                                        <img src="https://via.placeholder.com/300/FF0000/FFFFFF?text=9"
-                                            class="img-fluid mb-2" alt="red sample" />
-                                    </a>
-                                </div>
-                                <div class="filtr-item col-sm-2" data-category="1" data-sort="white sample">
-                                    <a href="https://via.placeholder.com/1200/FFFFFF.png?text=10" data-toggle="lightbox"
-                                        data-title="sample 10 - white">
-                                        <img src="https://via.placeholder.com/300/FFFFFF?text=10" class="img-fluid mb-2"
-                                            alt="white sample" />
-                                    </a>
-                                </div>
-                                <div class="filtr-item col-sm-2" data-category="1" data-sort="white sample">
-                                    <a href="https://via.placeholder.com/1200/FFFFFF.png?text=11" data-toggle="lightbox"
-                                        data-title="sample 11 - white">
-                                        <img src="https://via.placeholder.com/300/FFFFFF?text=11" class="img-fluid mb-2"
-                                            alt="white sample" />
-                                    </a>
-                                </div>
-                                <div class="filtr-item col-sm-2" data-category="2, 4" data-sort="black sample">
-                                    <a href="https://via.placeholder.com/1200/000000.png?text=12" data-toggle="lightbox"
-                                        data-title="sample 12 - black">
-                                        <img src="https://via.placeholder.com/300/000000?text=12" class="img-fluid mb-2"
-                                            alt="black sample" />
-                                    </a>
-                                </div>
+                                <!-- /.card-body -->
                             </div>
                         </div>
-
                     </div>
                 </div>
+                <!-- /.card -->
             </div>
-        </div>
+        </div><!-- /.container-fluid -->
     </section>
+    <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
+        <i class="fas fa-chevron-up"></i>
+    </a>
 </div>
 @endsection
 
 @section('script')
-<!-- Ekko Lightbox -->
-<script src="{{ asset('plugins/ekko-lightbox/ekko-lightbox.min.js') }}"></script>
-<!-- Filterizr-->
-<script src="{{ asset('plugins/filterizr/jquery.filterizr.min.js') }}"></script>
+<!-- SweetAlert2 -->
+<script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
-    $(function () {
-        $(document).on('click', '[data-toggle="lightbox"]', function (event) {
-            event.preventDefault();
-            $(this).ekkoLightbox({
-                alwaysShowClose: true
-            });
+    $(document).ready(function() {
+        let Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
         });
+        fetchData();
 
-        $('.filter-container').filterizr({gutterPixels: 3});
-        $('.btn[data-filter]').on('click', function () {
-            $('.btn[data-filter]').removeClass('active');
-            $(this).addClass('active');
-        });
+        function fetchData() {
+            $.ajax({
+                type: 'GET',
+                url: '/admin/order-product',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                datatype: 'json',
+                success: function(res) {
+                    $('#list-product').html('');
+                    $.each(res.product, function(index, item) {
+                        let img = 'system/No_image_available.png';
+                        if(item.image != '') img = 'product/'+item.image;
+                        $('#list-product').append(
+                            '<div class="col-lg-3 col-6">\
+                                <div class="small-box bg-info">\
+                                    <div class="inner">\
+                                        <img src="/images/'+img+'" alt="Ảnh <3" width="100%" style="border-radius: 4px;">\
+                                    </div>\
+                                    <div style="text-align: center;">\
+                                        <div class="d-flex flex-column">\
+                                            <div style="font-size: 20px;">'+item.name+'</div>\
+                                            <div><b>'+(item.price).toLocaleString('it-IT', {style : 'currency', currency : 'VND'})+'</b></div>\
+                                        </div>\
+                                    </div>\
+                                    <div class="small-box-footer">\
+                                        <button class="btn btn-light"><i class="fas fa-minus"></i></button>\
+                                        <input type="number" class="btn btn-light" readonly style="width: 50%;">\
+                                        <button class="btn btn-light"><i class="fas fa-plus"></i></button>\
+                                    </div>\
+                                </div>\
+                            </div>'
+                        );
+                    });
+                }
+            })
+        }
     })
 </script>
+
 @endsection

@@ -20,11 +20,13 @@ Route::middleware('auth:admin')->group(function (){
     Route::get('/logout', [LoginController::class, 'logout'])->name('admin.logout');
 
     // Product
+    Route::get('/get-product', [ProductController::class, 'getProduct']);
     Route::get('/add-product', [ProductController::class, 'addProduct'])->name('admin.add-product');
     Route::post('/add-product', [ProductController::class, 'storeProduct'])->name('admin.store-product');
     Route::get('/manage-product', [ProductController::class, 'manageProduct'])->name('admin.manage-product');
     Route::get('/edit-product/{id}', [ProductController::class, 'editProduct'])->name('admin.edit-product');
     Route::put('/update-product/{id}', [ProductController::class, 'updateProduct'])->name('admin.update-product');
+    Route::put('/update-visible/{id}', [ProductController::class, 'updateVisibleProduct']);
     Route::get('/delete-product/{id}', [ProductController::class, 'deleteProduct'])->name('admin.delete-product');
 
     // Formular
@@ -32,6 +34,7 @@ Route::middleware('auth:admin')->group(function (){
     Route::get('/manage-formula', [FormulaController::class, 'manageFormula'])->name('admin.manage-formula');
 
     // Bill
+    Route::get('/order-product', [BillController::class, 'orderProduct']);
     Route::get('/online', [BillController::class, 'online'])->name('admin.online');
     Route::get('/at-table', [BillController::class, 'atTable'])->name('admin.at-table');
     Route::get('/at-counter', [BillController::class, 'atCounter'])->name('admin.at-counter');

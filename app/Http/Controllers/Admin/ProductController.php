@@ -12,6 +12,10 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
+    public function manageProduct()
+    {
+        return view('admin.components.product.manage');
+    }
     public function addProduct()
     {
         return view('admin.components.product.add');
@@ -50,6 +54,7 @@ class ProductController extends Controller
             $validator->validated(),
             [
                 'amount' => 0,
+                'visible' => 1,
                 'image' => $image,
                 'description' => $request->description,
             ]
@@ -58,10 +63,13 @@ class ProductController extends Controller
         return redirect()->back()->with('success', 'Thêm sản phẩm thành công');
     }
 
-    public function manageProduct()
+    public function getProduct()
     {
         $product = Product::orderBy('id_product','DESC')->get();
-        return view('admin.components.product.manage', compact('product'));
+        // return view('admin.components.product.manage', compact('product'));
+        return response()->json([
+            'product' => $product,
+        ]);
     }
 
     public function editProduct($id)
@@ -114,6 +122,25 @@ class ProductController extends Controller
         ));
 
         return redirect()->back()->with('success', 'Cập nhật sản phẩm thành công');
+    }
+
+    public function updateVisibleProduct(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'visible' => 'required',
+        ]);
+
+        if($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
+
+        Product::where('id_product', $id)->update(array_merge(
+            $validator->validated(),
+        ));
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Cập nhật sản phẩm thành công',
+        ]);
     }
 
     public function deleteProduct($id)

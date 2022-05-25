@@ -1,5 +1,10 @@
 @extends('admin.layouts.app')
 
+@section('css')
+<!-- SweetAlert2 -->
+<link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+@endsection
+
 @section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -64,31 +69,11 @@
                                         <th>Ảnh</th>
                                         <th>Tên</th>
                                         <th>Giá</th>
+                                        <th>Hiển thị</th>
                                         <th>Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($product as $key => $item)
-                                        <tr>
-                                            <td>{{ $key+1 }}</td>
-                                            <td>{{ str_pad($item->id_product, 5, '0', STR_PAD_LEFT) }}</td>
-                                            <td>
-                                                @if($item->image != null)
-                                                    <img src="{{ asset('images/product/'.$item->image) }}" alt="IMAGE" width="32">
-                                                @else
-                                                <img src="{{ asset('images/system/No_image_available.png') }}" alt="IMAGE" width="32">
-                                                @endif
-                                            </td>
-                                            <td><a href="{{ route('admin.edit-product', $item->id_product) }}"><i>{{ $item->name }}</i></a></td>
-                                            <td>{{ number_format($item->price, 0, '', ','); }}</td>
-                                            <td>
-                                                <a class="btn btn-success btn-sm" href="{{ route('admin.edit-product', $item->id_product) }}"><i class="fas fa-eye"></i>
-                                                    Xem</a>
-                                                <a href="{{ route('admin.delete-product', $item->id_product) }}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i>
-                                                    Xoá</a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
@@ -97,6 +82,7 @@
                                         <th>Ảnh</th>
                                         <th>Tên</th>
                                         <th>Giá</th>
+                                        <th>Hiển thị</th>
                                         <th>Thao tác</th>
                                     </tr>
                                 </tfoot>
@@ -118,21 +104,93 @@
 @endsection
 @section('script')
     @include('admin.layouts.scriptDataTable')
+    <!-- SweetAlert2 -->
+    <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <script>
         $(function() {
-            // $('#tableProduct').DataTable({
-            //     "paging": true,
-            //     "lengthChange": false,
-            //     "searching": false,
-            //     "ordering": true,
-            //     "info": true,
-            //     "autoWidth": false,
-            //     "responsive": true,
-            // });
             $("#tableProduct").DataTable({
                 "responsive": true, "lengthChange": false, "autoWidth": false,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#tableProduct_wrapper .col-md-6:eq(0)');
+        })
+        $(document).ready(function() {
+            let Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+            fetchData();
+
+            function fetchData() {
+                $.ajax({
+                    type: 'GET',
+                    url: 'get-product',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    dataType: 'json',
+                    success: function(res) {
+                        $('#tableProduct').DataTable().destroy();
+                        $('tbody').html('');
+                        $.each(res.product, function(index, item) {
+                            var check = item.visible==1?'checked':'';
+                            var img = 'system/No_image_available.png';
+                            if(item.image != '') img = 'product/'+item.image;
+                            $('tbody').append(
+                                '<tr>\
+                                    <td>'+parseInt(index+1)+'</td>\
+                                    <td>'+item.id_product+'</td>\
+                                    <td><img src="/images/'+img+'" alt="IMAGE" width="32"></td>\
+                                    <td><a type="button" class="edit-product" value="'+item.id_product+'"><i>'+item.name+'</i></a></td>\
+                                    <td>'+(item.price).toLocaleString()+'</td>\
+                                    <td>\
+                                        <div class="custom-control custom-switch custom-switch-off-secondary custom-switch-on-success">\
+                                            <input type="checkbox" class="custom-control-input" id="customSwitch'+item.id_product+'" '+check+' value="'+item.id_product+'">\
+                                            <label class="custom-control-label" for="customSwitch'+item.id_product+'"></label>\
+                                        </div>\
+                                    </td>\
+                                    <td>\
+                                        <button type="button" class="edit-product btn btn-warning btn-sm" value="'+item.id_product+'"><i class="fas fa-edit"></i> Xem</button>\
+                                        <button type="button" class="delete-product btn btn-danger btn-sm" value="'+item.id_product+'|`|'+item.name+'"><i class="fas fa-trash"></i> Xoá</button>\
+                                    </td>\
+                                </tr>'
+                            )
+                        })
+                    }
+                })
+            }
+
+            $(document).on('change', '.custom-control-input', function(event) {
+                event.preventDefault();
+                var check = $(this).is(':checked');
+                var id_product = $(this).val();
+                var data = {
+                    visible: check?1:0
+                }
+                $.ajax({
+                    type: 'PUT',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: 'update-visible/'+id_product,
+                    dataType: 'json',
+                    data: data,
+                    success: function(res) {
+                        Toast.fire({
+                            icon: res.status,
+                            title: res.message,
+                        });
+                        fetchData();
+                    },
+                    error: function(error) {
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'Lỗi hệ thống!',
+                        });
+                    }
+                });
+            });
         })
     </script>
 @endsection
