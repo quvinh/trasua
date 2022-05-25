@@ -1,5 +1,10 @@
 @extends('admin.layouts.app')
 
+@section('css')
+<!-- SweetAlert2 -->
+<link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+@endsection
+
 @section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -196,7 +201,7 @@
     <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <script>
         $(document).ready(function() {
-            var Toast = Swal.mixin({
+            let Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
                 showConfirmButton: false,
