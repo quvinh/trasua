@@ -131,7 +131,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title text-danger">Bạn muốn xoá sản phẩm '<span id="del-name-table" style="font-weight:bold;"></span>' chứ ?</h4>
+              <h4 class="modal-title text-danger">Bạn muốn xoá '<span id="del-name-table" style="font-weight:bold;"></span>' chứ ?</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>

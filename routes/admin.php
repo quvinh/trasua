@@ -27,7 +27,7 @@ Route::middleware('auth:admin')->group(function (){
     Route::get('/edit-product/{id}', [ProductController::class, 'editProduct'])->name('admin.edit-product');
     Route::put('/update-product/{id}', [ProductController::class, 'updateProduct'])->name('admin.update-product');
     Route::put('/update-visible/{id}', [ProductController::class, 'updateVisibleProduct']);
-    Route::get('/delete-product/{id}', [ProductController::class, 'deleteProduct'])->name('admin.delete-product');
+    Route::delete('/delete-product/{id}', [ProductController::class, 'deleteProduct'])->name('admin.delete-product');
 
     // Formular
     Route::get('/add-formula', [FormulaController::class, 'addFormula'])->name('admin.add-formula');

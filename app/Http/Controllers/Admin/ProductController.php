@@ -75,7 +75,10 @@ class ProductController extends Controller
     public function editProduct($id)
     {
         $product = DB::table('products')->where('id_product', $id)->first();
-        return view('admin.components.product.edit', compact('product'));
+        // return view('admin.components.product.edit', compact('product'));
+        return response()->json([
+            'product' => $product,
+        ]);
     }
 
     public function updateProduct(Request $request, $id)
@@ -151,6 +154,10 @@ class ProductController extends Controller
             File::delete('images/product/'.$product->first()->image);
         }
         $product->delete();
-        return redirect()->back()->with('success', 'Xoá sản phẩm thành công');
+        // return redirect()->back()->with('success', 'Xoá sản phẩm thành công');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Xoá bàn thành công',
+        ]);
     }
 }
