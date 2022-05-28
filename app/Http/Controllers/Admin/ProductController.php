@@ -118,13 +118,16 @@ class ProductController extends Controller
         Product::where('id_product', $id)->update(array_merge(
             $validator->validated(),
             [
-                'amount' => 0,
                 'image' => $image,
                 'description' => $request->description,
             ]
         ));
 
-        return redirect()->back()->with('success', 'Cập nhật sản phẩm thành công');
+        // return redirect()->back()->with('success', 'Cập nhật sản phẩm thành công');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Cập nhật sản phẩm thành công',
+        ]);
     }
 
     public function updateVisibleProduct(Request $request, $id)

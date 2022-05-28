@@ -151,8 +151,8 @@
                         $('#list-product').append(
                             '<div class="col-lg-3 col-6">\
                                 <div class="small-box bg-info">\
-                                    <div class="inner">\
-                                        <img src="/images/'+img+'" alt="Ảnh <3" width="100%" style="border-radius: 4px;">\
+                                    <div class="inner" style="height:150px; text-align:center;background-color:#b3ecff;border-radius:4px">\
+                                        <img src="/images/'+img+'" alt="Ảnh <3" height="100%" style="border-radius: 4px;max-width:100%;">\
                                     </div>\
                                     <div style="text-align: center;">\
                                         <div class="d-flex flex-column">\

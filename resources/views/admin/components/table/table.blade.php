@@ -261,9 +261,14 @@
                         });
 
                         $("#table2").DataTable({
-                            "responsive": true, "lengthChange": false, "autoWidth": false,
-                            "buttons": ["colvis"]
-                        }).buttons().container().appendTo('#table2_wrapper .col-md-6:eq(0)');
+                            "paging": true,
+                            "lengthChange": true,
+                            "searching": true,
+                            "ordering": true,
+                            "info": true,
+                            "autoWidth": false,
+                            "responsive": true,
+                        })
                     }
                 })
             }

@@ -1,6 +1,5 @@
 <!-- jQuery -->
-<!-- <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js" integrity="sha384-mXQoED/lFIuocc//nss8aJOIrz7X7XruhR6bO+sGceiSyMELoVdZkN7F0oYwcFH+" crossorigin="anonymous"></script>
+<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
