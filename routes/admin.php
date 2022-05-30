@@ -35,6 +35,7 @@ Route::middleware('auth:admin')->group(function (){
 
     // Bill
     Route::get('/order-product', [BillController::class, 'orderProduct']);
+    Route::get('/search-product', [BillController::class, 'searchProduct']);
     Route::get('/online', [BillController::class, 'online'])->name('admin.online');
     Route::get('/at-table', [BillController::class, 'atTable'])->name('admin.at-table');
     Route::get('/at-counter', [BillController::class, 'atCounter'])->name('admin.at-counter');

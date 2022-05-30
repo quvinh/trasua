@@ -34,7 +34,7 @@
         <!-- Sidebar Menu -->
         @php
             $url = substr(app('request')->route()->uri(), 6);
-            $product = in_array($url, array('add-product', 'manage-product'));
+            $product = in_array($url, array('manage-product'));
             $formula = in_array($url, array('add-formula', 'manage-formula'));
             $bill = in_array($url, array('online', 'at-table', 'at-counter'));
             $table = in_array($url, array('manage-table'));
@@ -67,12 +67,12 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="{{ route('admin.add-product') }}" class="nav-link {{ $url=='add-product'?'active':'' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Thêm mới</p>
                             </a>
-                        </li>
+                        </li> -->
                         <li class="nav-item">
                             <a href="{{ route('admin.manage-product') }}" class="nav-link {{ $url=='manage-product'?'active':'' }}">
                                 <i class="far fa-circle nav-icon"></i>

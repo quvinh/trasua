@@ -553,6 +553,36 @@
                 }
             });
         });
+
+        $(document).on('click', '.add-product', function(evnet) {
+            $('#modal-add').modal('show');
+        })
+        $('#form-add-product').submit(function (event) {
+            event.preventDefault();
+            let formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: 'add-product',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    $("#form-add-product")[0].reset();
+                    $('#modal-add').modal('hide');
+                    fetchData();
+                    Toast.fire({
+                        icon: res.status,
+                        title: res.message,
+                    });
+                },
+                error: function (error) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Lỗi thêm sản phẩm!',
+                    });
+                }
+            });
+        });
     });
 
     function imageChange(event) {

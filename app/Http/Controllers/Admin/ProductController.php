@@ -60,7 +60,11 @@ class ProductController extends Controller
             ]
         ));
 
-        return redirect()->back()->with('success', 'Thêm sản phẩm thành công');
+        // return redirect()->back()->with('success', 'Thêm sản phẩm thành công');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Thêm sản phẩm thành công',
+        ]);
     }
 
     public function getProduct()
