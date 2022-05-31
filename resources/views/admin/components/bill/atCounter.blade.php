@@ -87,7 +87,7 @@
                         <div class="tab-pane fade" id="tab-table2" role="tabpanel" aria-labelledby="tab-table-config">
                             <div class="card card-primary card-outline">
                                 <div class="card-header">
-                                    <h3 class="card-title">Danh sách <small>Sản phẩm</small></h3>
+                                    <h3 class="card-title"><small></small></h3>
                                     <div class="card-tools">
                                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                             <i class="fas fa-minus"></i>
@@ -95,53 +95,7 @@
                                     </div>
                                 </div>
                                 <!-- /.card-header -->
-                                <div class="card-body">
-                                    <label>(*) Thêm bàn</label>
-                                    <ul id="error-store"></ul>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <input type="text" name="name" class="form-control" id="name"
-                                                    placeholder="Nhập tên bàn">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <input type="number" min="0" max="20" name="amount" class="form-control"
-                                                    id="amount" placeholder="Số chỗ">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <button type="button" id="button-store" class="btn btn-primary"><i
-                                                    class="fas fa-plus-circle"></i> Thêm mới</button>
-                                        </div>
-                                    </div>
-                                    <label>- Danh sách</label>
-                                    <table id="table2" class="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th style="width: 5px;">STT</th>
-                                                <th>ID</th>
-                                                <th>Tên</th>
-                                                <th>Số chỗ</th>
-                                                <th>Hiển thị</th>
-                                                <th>Thao tác</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th style="width: 5px;">STT</th>
-                                                <th>ID</th>
-                                                <th>Tên</th>
-                                                <th>Số chỗ</th>
-                                                <th>Hiển thị</th>
-                                                <th>Thao tác</th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
+                                <div class="card-body"></div>
                                 <!-- /.card-body -->
                             </div>
                         </div>
@@ -183,24 +137,7 @@
                                     <th>Xoá</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1.</td>
-                                    <td>Update software</td>
-                                    <td>SIZE M</td>
-                                    <td>15000</td>
-                                    <td><input type="number" class="form-control" min="1" max="100" value="1"></td>
-                                    <td>75000</td>
-                                    <td><button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button></td>
-                                </tr>
-                                <tr>
-                                    <td>2.</td>
-                                    <td>Update software</td>
-                                    <td>Update software</td>
-                                    <td>Update software</td>
-                                    <td>Update software</td>
-                                    <td><span class="badge bg-danger">55%</span></td>
-                                </tr>
+                            <tbody id="table-item-selected">
                             </tbody>
                         </table>
                     </div>
@@ -208,8 +145,8 @@
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Huỷ</button>
+                <button type="button" class="btn btn-primary">Thanh toán</button>
             </div>
         </div>
     </div>
@@ -330,8 +267,46 @@
 
         $(document).on('click', '#product-payment', function (event) {
             event.preventDefault();
+            loadTableItemSelected();
             $('#modal-product-payment').modal('show');
         })
+
+        $(document).on('click', '.remove-item-selected', function (event) {
+            event.preventDefault();
+            var id_product = $(this).attr('value');
+            itemSelected = [...itemSelected.filter(item => item.id_product != id_product)];
+            loadTableItemSelected();
+            $('#query-product').text(itemSelected.length);
+            if (itemSelected.length === 0) $('#modal-product-payment').modal('hide');
+        })
+
+        $(document).on('change', '.amount-item-selected', function (event) {
+            event.preventDefault();
+            var id_product = $(this).attr('id');
+            var amount_selected = $(this).val();
+            var itemChanged = itemSelected.filter(item => item.id_product === id_product);
+            itemSelected.forEach(item => {
+                if(item.id_product === id_product) item.amount = amount_selected;
+            });
+            loadTableItemSelected();
+        })
+
+        function loadTableItemSelected() {
+            var html = '';
+            $('#table-item-selected').html('');
+            itemSelected && itemSelected.map((item, index) => {
+                html += '<tr>\
+                    <td>'+ parseInt(index) + 1 + '</td>\
+                    <td>'+ item.name + '</td>\
+                    <td>'+ item.size + '</td>\
+                    <td>'+ (parseFloat(item.price)).toLocaleString() + '</td>\
+                    <td><input type="number" class="amount-item-selected form-control" min="1" max="100" value="'+ item.amount + '" id="' + item.id_product + '"></td>\
+                    <td><span id="total'+ item.id_product + '">' + (parseFloat(item.amount) * parseFloat(item.price)).toLocaleString() + '</span></td>\
+                    <td><button class="remove-item-selected btn btn-danger btn-sm" value="'+ item.id_product + '"><i class="fas fa-trash"></i></button></td>\
+                </tr>'
+            })
+            $('#table-item-selected').append(html);
+        }
 
         function showData(id_category, name) {
             var data = {
