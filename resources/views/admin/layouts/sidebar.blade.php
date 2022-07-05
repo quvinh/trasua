@@ -39,7 +39,7 @@
             $bill = in_array($url, array('online', 'at-table', 'at-counter'));
             $table = in_array($url, array('manage-table'));
             $store = in_array($url, array('store', 'import', 'coupon'));
-            $shop = in_array($url, array('revenue', 'expense'));
+            $shop = in_array($url, array('revenue', 'expense', 'branch'));
             $sys = in_array($url, array('user', 'role', 'log'));
             $cat = in_array($url, array('category', 'unit'));
         @endphp

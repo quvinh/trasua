@@ -28,8 +28,7 @@
                 <h5></h5>
                 <h5></h5>
                 <button class="btn btn-warning" id="product-payment"><i class="target fas fa-cart-arrow-down"></i> Sản
-                    phẩm chờ thanh toán <b class="badge badge-primary" id="query-product"
-                        style="font-size:16px;"></b></button>
+                    phẩm chờ thanh toán <b class="badge badge-primary" id="query-product" style="font-size:16px;"></b></button>
             </div>
             <div class="card card-primary card-tabs">
                 <div class="card-header p-0 pt-1">
@@ -38,12 +37,10 @@
                             <h3 class="card-title"><i class="fas fa-table"></i></h3>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" id="tab-table" data-toggle="pill" href="#tab-table1" role="tab"
-                                aria-controls="tab-table1" aria-selected="true">Sản phẩm</a>
+                            <a class="nav-link active" id="tab-table" data-toggle="pill" href="#tab-table1" role="tab" aria-controls="tab-table1" aria-selected="true">Sản phẩm</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="tab-table-config" data-toggle="pill" href="#tab-table2" role="tab"
-                                aria-controls="tab-table2" aria-selected="false">
+                            <a class="nav-link" id="tab-table-config" data-toggle="pill" href="#tab-table2" role="tab" aria-controls="tab-table2" aria-selected="false">
                                 Thiết lập
                                 <!-- <span class="badge badge-danger" style="position:absolute;">10</span> -->
                             </a>
@@ -52,8 +49,7 @@
                 </div>
                 <div class="card-body">
                     <div class="tab-content" id="custom-tabs-two-tabContent">
-                        <div class="tab-pane fade show active" id="tab-table1" role="tabpanel"
-                            aria-labelledby="tab-table">
+                        <div class="tab-pane fade show active" id="tab-table1" role="tabpanel" aria-labelledby="tab-table">
                             @php
                             $category = DB::table('categories')->get();
                             @endphp
@@ -70,11 +66,9 @@
                                 <div class="form-group col-6">
                                     <label for=""><code>Tìm tên sản phẩm</code></label>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control form-control-sm" id="search-product"
-                                            placeholder="Tìm sản phẩm">
+                                        <input type="text" class="form-control form-control-sm" id="search-product" placeholder="Tìm sản phẩm">
                                         <div class="input-group-prepend">
-                                            <button type="button" class="button-search btn btn-success btn-sm"><i
-                                                    class="fas fa-search"></i></button>
+                                            <button type="button" class="button-search btn btn-success btn-sm"><i class="fas fa-search"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -144,13 +138,19 @@
                     <!-- /.card-body -->
                 </div>
             </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Huỷ</button>
-                <button type="button" class="btn btn-primary">Thanh toán</button>
-            </div>
+            <form method="post" action="{{ route('admin.at-counter.save-bill') }}">
+                @csrf
+                <input type="text" id="id_product" name="id_product" value="" hidden required>
+                <input type="number" id="payment" name="payment" value="0" hidden required>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Huỷ</button>
+                    <button type="submit" class="btn btn-primary">Thanh toán</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
 @endsection
 
 @section('script')
@@ -158,7 +158,7 @@
 <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script src="{{ asset('js/fly/flyto.js') }}"></script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         let itemSelected = [];
         let queryItem = 0;
         let Toast = Swal.mixin({
@@ -179,26 +179,29 @@
                 type: 'GET',
                 url: 'order-product',
                 datatype: 'json',
-                success: function (res) {
+                success: function(res) {
                     $('#list-product').html('');
-                    $.each(res.product, function (index, item) {
+                    $.each(res.product, function(index, item) {
                         let img = 'system/No_image_available.png';
                         if (item.image != '') img = 'product/' + item.image;
                         $('#list-product').append(
                             '<div class="col-lg-3 col-6">\
                                 <div class="card card-warning card-outline">\
                                     <div class="card-header" style="background-color:rgb(128, 198, 255);">\
-                                        <div class="row"><div class="card-title col-11" style="white-space: nowrap;width: 100%;overflow: hidden;text-overflow: ellipsis;"><b>'+ item.name + '</b></div>\
+                                        <div class="row"><div class="card-title col-11" style="white-space: nowrap;width: 100%;overflow: hidden;text-overflow: ellipsis;"><b>' + item.name + '</b></div>\
                                         <div class="col-1" style="float:right;"><i class="fas fa-info-circle" style="cursor: pointer;" onclick="alert($(window).width());"></i></div>\
                                     </div></div>\
                                     <div class="item-body card-body" style="background-color:rgb(185, 253, 255);">\
                                         <div class="thumb-holder" style="text-align:center;">\
-                                            <img src="/images/'+ img + '" alt="Ảnh <3" height="' + $(window).width() / 7 + 'px" style="border-radius: 4px;max-width:100%;">\
+                                            <img src="/images/' + img + '" alt="Ảnh <3" height="' + $(window).width() / 7 + 'px" style="border-radius: 4px;max-width:100%;">\
                                         </div>\
                                         <div style="text-align: center;">\
-                                            <h4><i>'+ (item.price).toLocaleString('it-IT', {style: 'currency', currency: 'VND'}) + '</i></h4>\
+                                            <h4><i>' + (item.price).toLocaleString('it-IT', {
+                                style: 'currency',
+                                currency: 'VND'
+                            }) + '</i></h4>\
                                         </div>\
-                                        <button class="btn btn-primary add-item" type="button" value="'+ item.id_product + '|`|' + item.name + '|`|' + item.price + '|`|' + item.size + '"\
+                                        <button class="btn btn-primary add-item" type="button" value="' + item.id_product + '|`|' + item.name + '|`|' + item.price + '|`|' + item.size + '"\
                                             style="width: 100%;">\
                                             <i class="fas fa-cart-plus"></i>\
                                         </button>\
@@ -216,15 +219,15 @@
             })
         }
 
-        $(document).on('change', '#select-category', function (event) {
+        $(document).on('change', '#select-category', function(event) {
             event.preventDefault();
             showData($('#select-category').val(), $('#search-product').val().trim());
         })
-        $(document).on('click', '.button-search', function (event) {
+        $(document).on('click', '.button-search', function(event) {
             event.preventDefault();
             showData($('#select-category').val(), $('#search-product').val().trim());
         })
-        $(document).on('click', '.add-item', function (event) {
+        $(document).on('click', '.add-item', function(event) {
             event.preventDefault();
             var vals = ($(this).val()).split('|`|');
 
@@ -265,13 +268,13 @@
             $('#query-product').text(itemSelected.length);
         })
 
-        $(document).on('click', '#product-payment', function (event) {
+        $(document).on('click', '#product-payment', function(event) {
             event.preventDefault();
             loadTableItemSelected();
             $('#modal-product-payment').modal('show');
         })
 
-        $(document).on('click', '.remove-item-selected', function (event) {
+        $(document).on('click', '.remove-item-selected', function(event) {
             event.preventDefault();
             var id_product = $(this).attr('value');
             itemSelected = [...itemSelected.filter(item => item.id_product != id_product)];
@@ -280,32 +283,43 @@
             if (itemSelected.length === 0) $('#modal-product-payment').modal('hide');
         })
 
-        $(document).on('change', '.amount-item-selected', function (event) {
+        $(document).on('keyup', '.amount-item-selected', function(event) {
             event.preventDefault();
             var id_product = $(this).attr('id');
             var amount_selected = $(this).val();
             var itemChanged = itemSelected.filter(item => item.id_product === id_product);
             itemSelected.forEach(item => {
-                if(item.id_product === id_product) item.amount = amount_selected;
+                if (item.id_product === id_product) item.amount = amount_selected;
             });
             loadTableItemSelected();
         })
 
         function loadTableItemSelected() {
             var html = '';
+            var idProduct = '';
+            var totalPrice = 0;
             $('#table-item-selected').html('');
             itemSelected && itemSelected.map((item, index) => {
+                idProduct += item.id_product + '|`|';
+                totalPrice += parseFloat(item.amount) * parseFloat(item.price);
                 html += '<tr>\
-                    <td>'+ parseInt(index) + 1 + '</td>\
-                    <td>'+ item.name + '</td>\
-                    <td>'+ item.size + '</td>\
-                    <td>'+ (parseFloat(item.price)).toLocaleString() + '</td>\
-                    <td><input type="number" class="amount-item-selected form-control" min="1" max="100" value="'+ item.amount + '" id="' + item.id_product + '"></td>\
-                    <td><span id="total'+ item.id_product + '">' + (parseFloat(item.amount) * parseFloat(item.price)).toLocaleString() + '</span></td>\
-                    <td><button class="remove-item-selected btn btn-danger btn-sm" value="'+ item.id_product + '"><i class="fas fa-trash"></i></button></td>\
+                    <td>' + parseInt(index + 1) + '</td>\
+                    <td>' + item.name + '</td>\
+                    <td>' + item.size + '</td>\
+                    <td>' + (parseFloat(item.price)).toLocaleString() + '</td>\
+                    <td><input type="number" class="amount-item-selected form-control" min="1" max="100" value="' + item.amount + '" id="' + item.id_product + '"></td>\
+                    <td><span id="total' + item.id_product + '">' + (parseFloat(item.amount) * parseFloat(item.price)).toLocaleString() + '</span></td>\
+                    <td><button class="remove-item-selected btn btn-danger btn-sm" value="' + item.id_product + '"><i class="fas fa-trash"></i></button></td>\
                 </tr>'
             })
+            html += '<tr>\
+                <td colspan="6" style="text-align:right">Thành tiền: <b>' + totalPrice.toLocaleString() + '</b></td>\
+                <td>đồng</td>\
+            </tr>'
             $('#table-item-selected').append(html);
+            $('#id_product').attr('value', idProduct);
+            $('#payment').attr('value', totalPrice);
+            // Math.ceil(totalPrice/1000)*1000
         }
 
         function showData(id_category, name) {
@@ -318,26 +332,29 @@
                 url: 'search-product',
                 datatype: 'json',
                 data: data,
-                success: function (res) {
+                success: function(res) {
                     $('#list-product').html('');
-                    $.each(res.product, function (index, item) {
+                    $.each(res.product, function(index, item) {
                         let img = 'system/No_image_available.png';
                         if (item.image != '') img = 'product/' + item.image;
                         $('#list-product').append(
                             '<div class="col-lg-3 col-6">\
                                 <div class="card card-warning card-outline">\
                                     <div class="card-header" style="background-color:rgb(128, 198, 255);">\
-                                        <div class="row"><div class="card-title col-11" style="white-space: nowrap;width: 100%;overflow: hidden;text-overflow: ellipsis;"><b>'+ item.name + '</b></div>\
+                                        <div class="row"><div class="card-title col-11" style="white-space: nowrap;width: 100%;overflow: hidden;text-overflow: ellipsis;"><b>' + item.name + '</b></div>\
                                         <div class="col-1" style="float:right;"><i class="fas fa-info-circle" style="cursor: pointer;" onclick="alert($(window).width());"></i></div>\
                                     </div></div>\
                                     <div class="item-body card-body" style="background-color:rgb(185, 253, 255);">\
                                         <div class="thumb-holder" style="text-align:center;">\
-                                            <img src="/images/'+ img + '" alt="Ảnh <3" height="' + $(window).width() / 7 + 'px" style="border-radius: 4px;max-width:100%;">\
+                                            <img src="/images/' + img + '" alt="Ảnh <3" height="' + $(window).width() / 7 + 'px" style="border-radius: 4px;max-width:100%;">\
                                         </div>\
                                         <div style="text-align: center;">\
-                                            <h4><i>'+ (item.price).toLocaleString('it-IT', {style: 'currency', currency: 'VND'}) + '</i></h4>\
+                                            <h4><i>' + (item.price).toLocaleString('it-IT', {
+                                style: 'currency',
+                                currency: 'VND'
+                            }) + '</i></h4>\
                                         </div>\
-                                        <button class="btn btn-primary add-item" type="button" value="'+ item.id_product + '|`|' + item.name + '|`|' + item.price + '"\
+                                        <button class="btn btn-primary add-item" type="button" value="' + item.id_product + '|`|' + item.name + '|`|' + item.price + '"\
                                             style="width: 100%;">\
                                             <i class="fas fa-cart-plus"></i>\
                                         </button>\
@@ -354,10 +371,39 @@
                 }
             })
         }
-        window.addEventListener('resize', function (event) {
+        window.addEventListener('resize', function(event) {
             console.log($(window).width())
             fetchData();
         }, true);
     });
 </script>
+@if(session()->has('success'))
+<!-- <div id="alert-success">
+    <div class="alert alert-success" style="text-align: center; font-size: 20px; font-weight: bold;">
+        {{ session()->get('success') }}
+    </div>
+</div>
+<script>
+    function timedOut() {
+        document.getElementById("alert-success").innerHTML = "";
+    }
+    // set a timer
+    setTimeout(timedOut, 3000);
+</script> -->
+<script>
+    var title = "{{ session()->get('success') }}";
+    $(document).ready(function() {
+        let Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+        });
+        Toast.fire({
+            icon: 'success',
+            title: title,
+        });
+    })
+</script>
+@endif
 @endsection

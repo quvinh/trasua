@@ -17,9 +17,9 @@ class CreateBillsTable extends Migration
             // $table->id();
             $table->bigIncrements('id_bill');
             $table->float('payment');
-            $table->float('discount');
+            $table->float('discount')->default(0);
             $table->bigInteger('created_by');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->boolean('status');
             $table->timestamps();
             $table->softDeletes();
