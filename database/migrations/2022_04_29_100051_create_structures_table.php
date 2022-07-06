@@ -18,9 +18,10 @@ class CreateStructuresTable extends Migration
             // $table->timestamps();
             $table->bigIncrements('id_structure');
             $table->bigInteger('id_size')->nullable();
+            $table->bigInteger('id_unit');
             $table->string('name');
             $table->float('capacity');
-            $table->boolean('status');
+            $table->boolean('status')->default(0);
         });
     }
 

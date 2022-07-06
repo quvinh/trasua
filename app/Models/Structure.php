@@ -12,6 +12,7 @@ class Structure extends Model
     protected $table = 'structures';
     protected $fillable = [
         'id_size',
+        'id_unit',
         'name',
         'capacity',
         'status',

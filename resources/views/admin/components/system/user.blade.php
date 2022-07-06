@@ -247,5 +247,7 @@
             document.getElementById('match-password').textContent = '';
         }
     }
+
+    $("[data-card-widget='collapse']").click();
 </script>
 @endsection

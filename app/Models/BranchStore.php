@@ -13,5 +13,8 @@ class BranchStore extends Model
     protected $fillable = [
         'id_user',
         'name_branch',
+        'address_branch',
+        'phone_branch',
+        'business_day',
     ];
 }

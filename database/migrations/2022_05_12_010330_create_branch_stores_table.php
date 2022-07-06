@@ -18,6 +18,9 @@ class CreateBranchStoresTable extends Migration
             $table->bigIncrements('id_branch');
             $table->bigInteger('id_user');
             $table->string('name_branch');
+            $table->string('address_branch');
+            $table->int('phone_branch');
+            $table->date('business_day');
             $table->timestamps();
         });
     }
