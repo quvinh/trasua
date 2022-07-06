@@ -52,34 +52,75 @@
                                 setTimeout(timedOut, 3000);
                             </script>
                             @endif
-                            <form action="{{ route('admin.add-user') }}" method="post" enctype="multipart/form-data">
+                            <form action="{{ route('admin.store-formula') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div style="text-align: right;">
-                                    <button type="submit" class="btn btn-success"><i class="fas fa-plus-circle"></i> Tạo công thức</button>
+                                    <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Lưu</button>
                                 </div>
                                 <div class="form-group">
                                     <label for="">Nhập tên công thức</label>
-                                    <input type="text" name="username" class="form-control" id="username" placeholder="Tên công thức sản phẩm" required>
-                                </div>
-                                <label for="">Nhập các thành phẩm<span class="text-danger" id="match-password" style="font-style: italic;"></span></label>
-                                @for($i = 1; $i <= 20; $i++)
-                                <div class="form-group">
+                                    @php
+                                    $category = DB::table('categories')->get();
+                                    $size = DB::table('sizes')->get();
+                                    $unit = DB::table('units')->get();
+                                    @endphp
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="text" name="name[]" class="form-control" placeholder="Tên thành phẩm {{$i}}">
+                                        <div class="col-md-9">
+                                            <input type="text" name="nameFormula" class="form-control" id="nameFormula" placeholder="Tên công thức sản phẩm" required>
                                         </div>
-                                        <div class="col-md-2">
-                                            <input type="text" name="capacity[]" class="form-control" placeholder="Dung tích {{$i}}">
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="text" name="id_unit[]" class="form-control" placeholder="ĐVT {{$i}}">
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="text" name="id_size[]" class="form-control" placeholder="Loại {{$i}}">
+                                        <div class="col-md-3" style="text-align: center;">
+                                            <select class="form-control select2bs4" style="width: 100%;"
+                                                name="id_category">
+                                                <option value="">--Loại--</option>
+                                                @foreach($category as $item)
+                                                <option value="{{ $item->id_category }}">{{ $item->name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
-                                </div>    
-                                @endfor
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <label for="">Nhập các thành phẩm<span class="text-danger" style="font-style: italic;"></span></label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <select class="form-control select2bs4" style="width: 100%;" name="id_size">
+                                                <option value="">--Size--</option>
+                                                @foreach($size as $item)
+                                                <option value="{{ $item->id_size }}">{{ $item->name }} - {{
+                                                    $item->capacity
+                                                    }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="list-structure">
+                                    @for($i = 1; $i <= 5; $i++)
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <input type="text" name="name[]" class="form-control" placeholder="Tên thành phẩm {{$i}}">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="number" name="capacity[]" class="form-control" placeholder="Dung tích {{$i}}">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <select class="form-control select2bs4" style="width: 100%;" name="id_unit[]">
+                                                    <option value="">--ĐVT {{$i}}--</option>
+                                                    @foreach($unit as $item)
+                                                    <option value="{{ $item->id_unit }}">{{ $item->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>    
+                                    @endfor
+                                </div>
+                                <div style="text-align: center;">
+                                    <button type="button" id="btn-add-structure" class="btn btn-secondary"><i class="fas fa-plus-circle"></i> Thêm dòng</button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -101,6 +142,27 @@
 <!-- bs-custom-file-input -->
 <script src="{{ asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
 <script>
-
+    $(document).ready(function() {
+        var num = 5;
+        $('#btn-add-structure').on('click', function() {
+            num += 1;
+            $('#list-structure').append(
+                '<div class="form-group"><div class="row"><div class="col-md-6">\
+                    <input type="text" name="name[]" class="form-control" placeholder="Tên thành phẩm ' + num + '">\
+                </div>\
+                <div class="col-md-3">\
+                    <input type="number" name="capacity[]" class="form-control" placeholder="Dung tích ' + num + '">\
+                </div>\
+                <div class="col-md-3">\
+                    <select class="form-control select2bs4" style="width: 100%;" name="id_unit[]">\
+                        <option>--ĐVT ' + num + '--</option>\
+                        @foreach($unit as $item)\
+                        <option value="{{ $item->id_unit }}">{{ $item->name }}</option>\
+                        @endforeach\
+                    </select>\
+                </div></div></div>'
+            );
+        })
+    })
 </script>
 @endsection

@@ -31,6 +31,7 @@ Route::middleware('auth:admin')->group(function (){
 
     // Formular
     Route::get('/add-formula', [FormulaController::class, 'addFormula'])->name('admin.add-formula');
+    Route::post('/store-formula', [FormulaController::class, 'storeFormula'])->name('admin.store-formula');
     Route::get('/manage-formula', [FormulaController::class, 'manageFormula'])->name('admin.manage-formula');
 
     // Bill

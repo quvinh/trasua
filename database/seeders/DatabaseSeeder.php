@@ -138,5 +138,25 @@ class DatabaseSeeder extends Seeder
 
         // Assign role
         $admin->assignRole($roleAdmin);
+
+        // Unit
+        DB::table('units')->insert([
+            ['name' => 'ml'],
+            ['name' => 'gam'],
+            ['name' => 'lít'],
+            ['name' => 'kg'],
+            ['name' => 'muỗm'],
+            ['name' => 'gói'],
+            ['name' => 'cốc'],
+            ['name' => 'chiếc'],
+            ['name' => 'cái'],
+            ['name' => 'thùng'],
+        ]);
+
+        // Size
+        DB::table('sizes')->insert([
+            ['name' => 'size M', 'capacity' => 300],
+            ['name' => 'size L', 'capacity' => 700],
+        ]);
     }
 }
