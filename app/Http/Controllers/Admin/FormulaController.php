@@ -85,4 +85,10 @@ class FormulaController extends Controller
         $formula = DB::table('formulas')->where('id_formula', $id)->first();
         return view('admin.components.formula.edit', compact('formula'));
     }
+
+    public function deleteFormula($id)
+    {
+        $formula = DB::table('formulas')->where('id_formula', $id)->delete();
+        return redirect()->back()->with(['success' => 'Xoá công thức thành công']);
+    }
 }

@@ -42,6 +42,20 @@
                                 background-color: #e6f5ff;
                             }
                         </style>
+                        @if(session()->has('success'))
+                            <div id="alert-success">
+                                <div class="alert alert-success" style="text-align: center; font-size: 20px; font-weight: bold;">
+                                    {{ session()->get('success') }}
+                                </div>
+                            </div>
+                            <script>
+                                function timedOut() {
+                                    document.getElementById("alert-success").innerHTML = "";
+                                }
+                                // set a timer
+                                setTimeout( timedOut , 3000 );
+                            </script>
+                        @endif
                         <div class="card-body">
                             <table class="table table-bordered table-hover" style="border-radius: 4px;">
                                 <thead>
@@ -70,7 +84,7 @@
                                         <td>{{ $item->category }}</td>
                                         <td>
                                             <a type="button" class="btn btn-sm btn-warning" href="{{ route('admin.edit-formula', $item->id_formula) }}"><i class="fas fa-edit"></i></a>
-                                            <button type="button" class="btn btn-sm btn-danger" onclick="alert('ok');"><i class="fas fa-trash"></i></button>
+                                            <a type="button" class="btn btn-sm btn-danger" href="{{ route('admin.delete-formula', $item->id_formula) }}"><i class="fas fa-trash"></i></button>
                                         </td>
                                     </tr>
                                     <tr class="expandable-body">

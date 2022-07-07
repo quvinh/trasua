@@ -34,6 +34,7 @@ Route::middleware('auth:admin')->group(function (){
     Route::post('/store-formula', [FormulaController::class, 'storeFormula'])->name('admin.store-formula');
     Route::get('/edit-formula/{id}', [FormulaController::class, 'editFormula'])->name('admin.edit-formula');
     Route::get('/manage-formula', [FormulaController::class, 'manageFormula'])->name('admin.manage-formula');
+    Route::get('/delete-formula/{id}', [FormulaController::class, 'deleteFormula'])->name('admin.delete-formula');
 
     // Bill
     Route::get('/order-product', [BillController::class, 'orderProduct']);
