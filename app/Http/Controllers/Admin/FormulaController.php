@@ -72,6 +72,17 @@ class FormulaController extends Controller
 
     public function manageFormula()
     {
-        return view('admin.components.formula.manage');
+        $formula = DB::table('formulas')
+            ->join('categories', 'formulas.id_category', '=', 'categories.id_category')
+            ->select('formulas.*', 'categories.name as category')
+            ->orderByDesc('formulas.id_formula')
+            ->get();
+        return view('admin.components.formula.manage', compact('formula'));
+    }
+
+    public function editFormula($id)
+    {
+        $formula = DB::table('formulas')->where('id_formula', $id)->first();
+        return view('admin.components.formula.edit', compact('formula'));
     }
 }

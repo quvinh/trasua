@@ -1,5 +1,9 @@
 @extends('admin.layouts.app')
 
+@section('css')
+@include('admin.layouts.css')
+@endsection
+
 @section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -149,4 +153,8 @@
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+@endsection
+
+@section('script')
+@include('admin.layouts.script')
 @endsection
