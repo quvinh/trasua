@@ -1,6 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('css')
+@include('admin.layouts.css')
 <!-- SweetAlert2 -->
 <link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
 @endsection
@@ -41,7 +42,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="tab-table-config" data-toggle="pill" href="#tab-table2" role="tab" aria-controls="tab-table2" aria-selected="false">
-                                Thiết lập
+                                Đã bán
                                 <!-- <span class="badge badge-danger" style="position:absolute;">10</span> -->
                             </a>
                         </li>
@@ -79,9 +80,19 @@
                         </div>
                         <!-- </div> -->
                         <div class="tab-pane fade" id="tab-table2" role="tabpanel" aria-labelledby="tab-table-config">
+                            @php
+                            $bills = DB::table('bills')->orderByDesc('created_at')->get();
+                            @endphp
+                            @foreach($bills as $key => $bill)
+                            @php
+                            $products = DB::table('bill_infos')
+                                ->join('products', 'bill_infos.id_product', '=', 'products.id_product')
+                                ->select('products.*')
+                                ->get();
+                            @endphp
                             <div class="card card-primary card-outline">
                                 <div class="card-header">
-                                    <h3 class="card-title"><small></small></h3>
+                                    <h3 class="card-title">ID: {{$bill->id_bill}}</h3>
                                     <div class="card-tools">
                                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                             <i class="fas fa-minus"></i>
@@ -89,9 +100,21 @@
                                     </div>
                                 </div>
                                 <!-- /.card-header -->
-                                <div class="card-body"></div>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <tbody>
+                                            @foreach($products as $index => $product)
+                                            <tr>
+                                                <td>{{$index+1}}</td>
+                                                <td>{{$product->name}}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                                 <!-- /.card-body -->
                             </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -141,6 +164,7 @@
             <form method="post" action="{{ route('admin.at-counter.save-bill') }}">
                 @csrf
                 <input type="text" id="id_product" name="id_product" value="" hidden required>
+                <input type="text" id="amount_product" name="amount_product" value="" hidden required>
                 <input type="number" id="payment" name="payment" value="0" hidden required>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Huỷ</button>
@@ -154,6 +178,7 @@
 @endsection
 
 @section('script')
+@include('admin.layouts.script')
 <!-- SweetAlert2 -->
 <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script src="{{ asset('js/fly/flyto.js') }}"></script>
@@ -297,10 +322,12 @@
         function loadTableItemSelected() {
             var html = '';
             var idProduct = '';
+            var amountProduct = '';
             var totalPrice = 0;
             $('#table-item-selected').html('');
             itemSelected && itemSelected.map((item, index) => {
                 idProduct += item.id_product + '|`|';
+                amountProduct += item.amount + '|`|';
                 totalPrice += parseFloat(item.amount) * parseFloat(item.price);
                 html += '<tr>\
                     <td>' + parseInt(index + 1) + '</td>\
@@ -318,6 +345,7 @@
             </tr>'
             $('#table-item-selected').append(html);
             $('#id_product').attr('value', idProduct);
+            $('#amount_product').attr('value', amountProduct);
             $('#payment').attr('value', totalPrice);
             // Math.ceil(totalPrice/1000)*1000
         }

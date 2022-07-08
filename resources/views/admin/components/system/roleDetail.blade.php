@@ -1,5 +1,9 @@
 @extends('admin.layouts.app')
 
+@section('css')
+@include('admin.layouts.css')
+@endsection
+
 @section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -177,6 +181,7 @@
 @endsection
 
 @section('script')
+    @include('admin.layouts.script')
     <!-- SweetAlert2 -->
     <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <script type="text/javascript">

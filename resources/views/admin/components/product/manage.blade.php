@@ -1,6 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('css')
+@include('admin.layouts.css')
 <!-- SweetAlert2 -->
 <link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
 @endsection
@@ -378,6 +379,7 @@
 <!-- /.content-wrapper -->
 @endsection
 @section('script')
+@include('admin.layouts.script')
 @include('admin.layouts.scriptDataTable')
 <!-- SweetAlert2 -->
 <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>

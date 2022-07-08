@@ -14,6 +14,7 @@ class BillInfo extends Model
         'id_bill',
         'id_product',
         'month',
+        'amount'
     ];
 
     public $timestamps = false;

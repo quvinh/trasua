@@ -26,7 +26,9 @@
             </div>
         </div><!-- /.container-fluid -->
     </section>
-
+    <div class="text-center" style="margin-bottom: 10px;">
+        <a href="{{ route('admin.add-formula') }}" class="btn btn-sm btn-outline-primary"><i class="fas fa-plus-circle"></i> Thêm công thức</a>
+    </div>
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
@@ -34,7 +36,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Expandable Table</h3>
+                            <h3 class="card-title">Danh sách công thức</h3>
                         </div>
                         <!-- ./card-header -->
                         <style>
@@ -43,18 +45,18 @@
                             }
                         </style>
                         @if(session()->has('success'))
-                            <div id="alert-success">
-                                <div class="alert alert-success" style="text-align: center; font-size: 20px; font-weight: bold;">
-                                    {{ session()->get('success') }}
-                                </div>
+                        <div id="alert-success">
+                            <div class="alert alert-success" style="text-align: center; font-size: 20px; font-weight: bold;">
+                                {{ session()->get('success') }}
                             </div>
-                            <script>
-                                function timedOut() {
-                                    document.getElementById("alert-success").innerHTML = "";
-                                }
-                                // set a timer
-                                setTimeout( timedOut , 3000 );
-                            </script>
+                        </div>
+                        <script>
+                            function timedOut() {
+                                document.getElementById("alert-success").innerHTML = "";
+                            }
+                            // set a timer
+                            setTimeout(timedOut, 3000);
+                        </script>
                         @endif
                         <div class="card-body">
                             <table class="table table-bordered table-hover" style="border-radius: 4px;">
@@ -71,14 +73,18 @@
                                     @php
                                     $id = $item->id_formula;
                                     $structure = DB::table('structures')
-                                        ->join('formula_structures', 'structures.id_structure', '=', 'formula_structures.id_structure')
-                                        ->join('sizes', 'structures.id_size', '=', 'sizes.id_size')
-                                        ->join('units', 'structures.id_unit', '=', 'units.id_unit')
-                                        ->select('structures.name as name', 'structures.capacity as capacity', 'sizes.name as size', 'units.name as unit')
-                                        ->where('formula_structures.id_formula', '=', $id)
-                                        ->get();
+                                    ->join('formula_structures', 'structures.id_structure', '=', 'formula_structures.id_structure')
+                                    ->join('sizes', 'structures.id_size', '=', 'sizes.id_size')
+                                    ->join('units', 'structures.id_unit', '=', 'units.id_unit')
+                                    ->select('structures.name as name', 'structures.capacity as capacity', 'sizes.name as size', 'units.name as unit')
+                                    ->where('formula_structures.id_formula', '=', $id)
+                                    ->get();
                                     @endphp
+                                    @if($key > 0)
                                     <tr data-widget="expandable-table" aria-expanded="false">
+                                        @else
+                                    <tr data-widget="expandable-table" aria-expanded="true">
+                                        @endif
                                         <td>{{ $key+1 }}</td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->category }}</td>

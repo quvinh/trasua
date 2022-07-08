@@ -1,5 +1,9 @@
 @extends('admin.layouts.app')
 
+@section('css')
+@include('admin.layouts.css')
+@endsection
+
 @section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -228,6 +232,7 @@
 @endsection
 
 @section('script')
+@include('admin.layouts.script')
 @include('admin.layouts.scriptDataTable')
 <!-- bs-custom-file-input -->
 <script src="{{ asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>

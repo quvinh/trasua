@@ -1,6 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('css')
+    @include('admin.layouts.css')
     <!-- Select2 -->
     <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
@@ -129,6 +130,7 @@
 @endsection
 
 @section('script')
+@include('admin.layouts.script')
     <!-- Select2 -->
     <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
     <script>

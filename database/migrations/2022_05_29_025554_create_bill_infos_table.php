@@ -19,6 +19,7 @@ class CreateBillInfosTable extends Migration
             $table->bigIncrements('id_bill_info');
             $table->bigInteger('id_bill');
             $table->bigInteger('id_product');
+            $table->integer('amount');
             $table->char('month',7)->default('06-2000');
         });
     }

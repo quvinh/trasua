@@ -2,6 +2,8 @@
 
 @section('css')
 @include('admin.layouts.css')
+<!-- SweetAlert2 -->
+<link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
 @endsection
 
 @section('content')
@@ -24,7 +26,9 @@
             </div>
         </div><!-- /.container-fluid -->
     </section>
-
+    <div class="text-center" style="margin-bottom: 10px;">
+        <a href="{{ route('admin.manage-formula') }}" class="btn btn-sm btn-outline-primary"><i class="fas fa-list"></i> Danh sách công thức</a>
+    </div>
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
@@ -57,7 +61,7 @@
                                 setTimeout(timedOut, 3000);
                             </script>
                             @endif
-                            <form action="{{ route('admin.store-formula') }}" method="post" enctype="multipart/form-data">
+                            <form action="{{ route('admin.update-formula', $formula->id_formula) }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div style="text-align: right;">
                                     <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Lưu</button>
@@ -70,18 +74,17 @@
                                     $unit = DB::table('units')->get();
                                     $id = $formula->id_formula;
                                     $structure = DB::table('structures')
-                                        ->join('formula_structures', 'structures.id_structure', '=', 'formula_structures.id_structure')
-                                        ->select('structures.*')
-                                        ->where('formula_structures.id_formula', '=', $id)
-                                        ->get();
+                                    ->join('formula_structures', 'structures.id_structure', '=', 'formula_structures.id_structure')
+                                    ->select('structures.*')
+                                    ->where('formula_structures.id_formula', '=', $id)
+                                    ->get();
                                     @endphp
                                     <div class="row">
                                         <div class="col-md-9">
                                             <input type="text" name="nameFormula" class="form-control" id="nameFormula" placeholder="Tên công thức sản phẩm" value="{{ $formula->name }}" required>
                                         </div>
                                         <div class="col-md-3" style="text-align: center;">
-                                            <select class="form-control select2bs4" style="width: 100%;"
-                                                name="id_category">
+                                            <select class="form-control select2bs4" style="width: 100%;" name="id_category">
                                                 <option value="">--Loại--</option>
                                                 @foreach($category as $item)
                                                 <option value="{{ $item->id_category }}" @if($item->id_category == $formula->id_category) selected="selected" @endif>{{ $item->name }}</option>
@@ -113,8 +116,12 @@
                                     @endphp
                                     @foreach($structure as $key => $item)
                                     <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-md-6">
+                                        <div class="structure-row row">
+                                            <div class="col-md-1 text-center">
+                                                <button class="btn-remove-structure btn btn-secondary" type="button" value="{{ $item->id_structure }}" title="Xóa"><i class="fas fa-times"></i></button>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input type="text" name="id_structure[]" class="form-control" placeholder="Tên thành phẩm {{$key+1}}" value="{{ $item->id_structure }}" hidden>
                                                 <input type="text" name="name[]" class="form-control" placeholder="Tên thành phẩm {{$key+1}}" value="{{ $item->name }}">
                                             </div>
                                             <div class="col-md-3">
@@ -124,12 +131,12 @@
                                                 <select class="form-control select2bs4" style="width: 100%;" name="id_unit[]">
                                                     <option value="">--ĐVT {{$key+1}}--</option>
                                                     @foreach($unit as $value)
-                                                    <option value="{{ $item->id_unit }}" @if($item->id_unit == $value->id_unit) selected="selected" @endif>{{ $item->name }}</option>
+                                                    <option value="{{ $value->id_unit }}" @if($value->id_unit == $item->id_unit) selected="selected" @endif>{{ $value->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                         </div>
-                                    </div>    
+                                    </div>
                                     @endforeach
                                 </div>
                                 <div style="text-align: center;">
@@ -153,15 +160,23 @@
 
 @section('script')
 @include('admin.layouts.script')
-<!-- bs-custom-file-input -->
-<script src="{{ asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
+<!-- SweetAlert2 -->
+<script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
     $(document).ready(function() {
+        let Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+        });
         var num = <?= json_encode($rowStructure) ?>;
         $('#btn-add-structure').on('click', function() {
             num += 1;
             $('#list-structure').append(
-                '<div class="form-group"><div class="row"><div class="col-md-6">\
+                '<div class="form-group"><div class="row">\
+                <div class="col-md-1"></div>\
+                <div class="col-md-5">\
                     <input type="text" name="name[]" class="form-control" placeholder="Tên thành phẩm ' + num + '">\
                 </div>\
                 <div class="col-md-3">\
@@ -176,6 +191,33 @@
                     </select>\
                 </div></div></div>'
             );
+        })
+
+        $('.btn-remove-structure').on('click', function(e) {
+            e.preventDefault();
+            var id = $(this).val();
+            $(this).parent().parent().hide();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: 'DELETE',
+                url: '/admin/remove-structure/' + id,
+                success: function(res) {
+                    Toast.fire({
+                        icon: res.status,
+                        title: res.message,
+                    });
+                },
+                error: function(error) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'ERROR!',
+                    });
+                }
+            })
         })
     })
 </script>

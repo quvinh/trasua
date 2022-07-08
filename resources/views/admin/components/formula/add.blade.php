@@ -23,7 +23,9 @@
             </div>
         </div><!-- /.container-fluid -->
     </section>
-
+    <div class="text-center" style="margin-bottom: 10px;">
+        <a href="{{ route('admin.manage-formula') }}" class="btn btn-sm btn-outline-primary"><i class="fas fa-list"></i> Danh sách công thức</a>
+    </div>
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">

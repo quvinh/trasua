@@ -33,8 +33,10 @@ Route::middleware('auth:admin')->group(function (){
     Route::get('/add-formula', [FormulaController::class, 'addFormula'])->name('admin.add-formula');
     Route::post('/store-formula', [FormulaController::class, 'storeFormula'])->name('admin.store-formula');
     Route::get('/edit-formula/{id}', [FormulaController::class, 'editFormula'])->name('admin.edit-formula');
+    Route::post('/update-formula/{id}', [FormulaController::class, 'updateFormula'])->name('admin.update-formula');
     Route::get('/manage-formula', [FormulaController::class, 'manageFormula'])->name('admin.manage-formula');
     Route::get('/delete-formula/{id}', [FormulaController::class, 'deleteFormula'])->name('admin.delete-formula');
+    Route::delete('/remove-structure/{id}', [FormulaController::class, 'removeStructure']);
 
     // Bill
     Route::get('/order-product', [BillController::class, 'orderProduct']);

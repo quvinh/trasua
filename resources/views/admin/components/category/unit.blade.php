@@ -1,5 +1,9 @@
 @extends('admin.layouts.app')
 
+@section('css')
+@include('admin.layouts.css')
+@endsection
+
 @section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -118,6 +122,7 @@
 @endsection
 
 @section('script')
+@include('admin.layouts.script')
     @include('admin.layouts.scriptDataTable')
     <script>
         $(function() {

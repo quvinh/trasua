@@ -71,6 +71,7 @@ class BillController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'id_product' => 'required',
+            'amount_product' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -78,6 +79,7 @@ class BillController extends Controller
         }
 
         $list_product = explode('|`|', $request->id_product);
+        $amount_product = explode('|`|', $request->amount_product);
 
         Bill::create(array_merge(
             $validator->validated(),
@@ -92,13 +94,14 @@ class BillController extends Controller
 
         $id_bill = DB::table('bills')->max('id_bill');
         $date = date('m-Y');
-        foreach ($list_product as $id_product) {
+        foreach ($list_product as $index => $id_product) {
             if ($id_product != '' && is_numeric($id_product)) {
                 BillInfo::create(array_merge(
                     [
                         'id_bill' => $id_bill,
                         'id_product' => $id_product,
-                        'month' => $date
+                        'month' => $date,
+                        'amount' => $amount_product[$index]
                     ]
                 ));
             }
