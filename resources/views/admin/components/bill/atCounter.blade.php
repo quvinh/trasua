@@ -87,7 +87,8 @@
                             @php
                             $products = DB::table('bill_infos')
                                 ->join('products', 'bill_infos.id_product', '=', 'products.id_product')
-                                ->select('products.*')
+                                ->select('products.*', 'bill_infos.amount as amountProduct')
+                                ->where('bill_infos.id_bill', $bill->id_bill)
                                 ->get();
                             @endphp
                             <div class="card card-primary card-outline">
@@ -106,9 +107,17 @@
                                             @foreach($products as $index => $product)
                                             <tr>
                                                 <td>{{$index+1}}</td>
+                                                <td><img src="{{asset('images/product/'.$product->image)}}" alt="IMAGE" height="30px"></td>
                                                 <td>{{$product->name}}</td>
+                                                <td>{{$product->price}}</td>
+                                                <td>{{$product->amountProduct}} {{$product->unit}}</td>
+                                                <td>{{(float)$product->price*(float)$product->amountProduct}}</td>
                                             </tr>
                                             @endforeach
+                                            <tr>
+                                                <td colspan="5" class="text-right">Tổng tiền:</td>
+                                                <td><b>{{$bill->payment}}</b></td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
