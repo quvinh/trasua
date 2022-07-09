@@ -85,15 +85,35 @@
                             @endphp
                             @foreach($bills as $key => $bill)
                             @php
+                            $ldate = date('Y-m-d H:i:s');
+                            $cdate = strtotime($ldate) - strtotime($bill->created_at);
                             $products = DB::table('bill_infos')
-                                ->join('products', 'bill_infos.id_product', '=', 'products.id_product')
-                                ->select('products.*', 'bill_infos.amount as amountProduct')
-                                ->where('bill_infos.id_bill', $bill->id_bill)
-                                ->get();
+                            ->join('products', 'bill_infos.id_product', '=', 'products.id_product')
+                            ->select('products.*', 'bill_infos.amount as amountProduct')
+                            ->where('bill_infos.id_bill', $bill->id_bill)
+                            ->get();
+                            $date = '';
+                            $m = (int)($cdate/60);
+                            $h = (int)($cdate/(60*60));
+                            $d = (int)($cdate/(60*60*24));
+                            if($m > 0) {
+                            $date = $m . ' phút trước';
+                            if($h > 0) {
+                            $date = $h . ' tiếng ' . ($m%60) . ' phút trước';
+                            if($d > 0) {
+                            $date = $d . ' ngày trước';
+                            }
+                            }
+                            } else {
+                            $date = 'Vài giây trước';
+                            }
                             @endphp
                             <div class="card card-primary card-outline">
                                 <div class="card-header">
-                                    <h3 class="card-title">ID: {{$bill->id_bill}}</h3>
+                                    <h3 class="card-title" style="width:90%;">
+                                        <div style="float:left;"><b>ID: {{$bill->id_bill}}</b> <span class="badge badge-primary"><i class="fas fa-check-circle"></i> {{$date}}</span></div>
+                                        <div style="float:right;"><span class="badge badge-secondary">{{date('d/m/Y H:i:s', strtotime($bill->created_at))}}</span></div>
+                                    </h3>
                                     <div class="card-tools">
                                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                             <i class="fas fa-minus"></i>
@@ -109,14 +129,14 @@
                                                 <td>{{$index+1}}</td>
                                                 <td><img src="{{asset('images/product/'.$product->image)}}" alt="IMAGE" height="30px"></td>
                                                 <td>{{$product->name}}</td>
-                                                <td>{{$product->price}}</td>
+                                                <td>{{number_format($product->price, 0, '', ',')}}</td>
                                                 <td>{{$product->amountProduct}} {{$product->unit}}</td>
-                                                <td>{{(float)$product->price*(float)$product->amountProduct}}</td>
+                                                <td>{{number_format((float)$product->price*(float)$product->amountProduct, 0, '', ',')}}</td>
                                             </tr>
                                             @endforeach
                                             <tr>
                                                 <td colspan="5" class="text-right">Tổng tiền:</td>
-                                                <td><b>{{$bill->payment}}</b></td>
+                                                <td><b>{{number_format($bill->payment, 0, '', ',')}} đ</b></td>
                                             </tr>
                                         </tbody>
                                     </table>
