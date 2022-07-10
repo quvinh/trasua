@@ -18,7 +18,7 @@
 <!-- Bootstrap Color Picker -->
 <link rel="stylesheet" href="{{ asset('plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}">
 <!-- Tempusdominus Bootstrap 4 -->
-<link rel="stylesheet" href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
+<!-- <link rel="stylesheet" href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}"> -->
 @endsection
 
 @section('content')
@@ -47,9 +47,9 @@
             <h5 class="md-2">
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                            <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" />
-                            <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                        <div class="input-group date" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" id="range1" value="{{date('d/m/Y')}}" />
+                            <div class="input-group-append">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i> Ngày</div>
                             </div>
                         </div>
@@ -90,9 +90,9 @@
             <h5 class="md-2">
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="input-group date" id="reservationdate2" data-target-input="nearest">
-                            <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate2" />
-                            <div class="input-group-append" data-target="#reservationdate2" data-toggle="datetimepicker">
+                        <div class="input-group date" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" id="range2" value="{{date('m/Y')}}" />
+                            <div class="input-group-append">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i> Tháng</div>
                             </div>
                         </div>
@@ -147,7 +147,8 @@
                         </div>
                         <div class="card-body">
                             <div class="chart">
-                                <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                <canvas id="barChart"
+                                    style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                             </div>
                         </div>
                         <!-- /.card-body -->
@@ -171,7 +172,8 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                            <canvas id="donutChart"
+                                style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -199,7 +201,8 @@
                         </div>
                         <div class="card-body">
                             <div class="chart">
-                                <canvas id="barChart2" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                <canvas id="barChart2"
+                                    style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                             </div>
                         </div>
                         <!-- /.card-body -->
@@ -230,10 +233,13 @@
 <!-- bootstrap color picker -->
 <script src="{{ asset('plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js') }}"></script>
 <!-- Tempusdominus Bootstrap 4 -->
-<script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+<!-- <script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script> -->
 <!-- Page specific script -->
+<link id="bsdp-css" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/locales/bootstrap-datepicker.vi.min.js" charset="UTF-8"></script>    
 <script>
-    $(function() {
+    $(function () {
         /* ChartJS
          * -------
          * Here we will create a few charts using ChartJS
@@ -242,54 +248,54 @@
         var areaChartData = {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [{
-                    label: 'Digital Goods',
-                    backgroundColor: 'rgba(60,141,188,0.9)',
-                    borderColor: 'rgba(60,141,188,0.8)',
-                    pointRadius: false,
-                    pointColor: '#3b8bba',
-                    pointStrokeColor: 'rgba(60,141,188,1)',
-                    pointHighlightFill: '#fff',
-                    pointHighlightStroke: 'rgba(60,141,188,1)',
-                    data: [28, 48, 40, 19, 86, 27, 90]
-                },
-                {
-                    label: 'Electronics',
-                    backgroundColor: 'rgba(210, 214, 222, 1)',
-                    borderColor: 'rgba(210, 214, 222, 1)',
-                    pointRadius: false,
-                    pointColor: 'rgba(210, 214, 222, 1)',
-                    pointStrokeColor: '#c1c7d1',
-                    pointHighlightFill: '#fff',
-                    pointHighlightStroke: 'rgba(220,220,220,1)',
-                    data: [65, 59, 80, 81, 56, 55, 40]
-                },
+                label: 'Digital Goods',
+                backgroundColor: 'rgba(60,141,188,0.9)',
+                borderColor: 'rgba(60,141,188,0.8)',
+                pointRadius: false,
+                pointColor: '#3b8bba',
+                pointStrokeColor: 'rgba(60,141,188,1)',
+                pointHighlightFill: '#fff',
+                pointHighlightStroke: 'rgba(60,141,188,1)',
+                data: [28, 48, 40, 19, 86, 27, 90]
+            },
+            {
+                label: 'Electronics',
+                backgroundColor: 'rgba(210, 214, 222, 1)',
+                borderColor: 'rgba(210, 214, 222, 1)',
+                pointRadius: false,
+                pointColor: 'rgba(210, 214, 222, 1)',
+                pointStrokeColor: '#c1c7d1',
+                pointHighlightFill: '#fff',
+                pointHighlightStroke: 'rgba(220,220,220,1)',
+                data: [65, 59, 80, 81, 56, 55, 40]
+            },
             ]
         }
 
         var areaChartData2 = {
             labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
             datasets: [{
-                    label: 'Digital Goods',
-                    backgroundColor: 'rgba(60,141,188,0.9)',
-                    borderColor: 'rgba(60,141,188,0.8)',
-                    pointRadius: false,
-                    pointColor: '#3b8bba',
-                    pointStrokeColor: 'rgba(60,141,188,1)',
-                    pointHighlightFill: '#fff',
-                    pointHighlightStroke: 'rgba(60,141,188,1)',
-                    data: [28, 48, 40, 19, 86, 27, 90]
-                },
-                {
-                    label: 'Electronics',
-                    backgroundColor: 'rgba(210, 214, 222, 1)',
-                    borderColor: 'rgba(210, 214, 222, 1)',
-                    pointRadius: false,
-                    pointColor: 'rgba(210, 214, 222, 1)',
-                    pointStrokeColor: '#c1c7d1',
-                    pointHighlightFill: '#fff',
-                    pointHighlightStroke: 'rgba(220,220,220,1)',
-                    data: [65, 59, 80, 81, 56, 55, 40]
-                },
+                label: 'Digital Goods',
+                backgroundColor: 'rgba(60,141,188,0.9)',
+                borderColor: 'rgba(60,141,188,0.8)',
+                pointRadius: false,
+                pointColor: '#3b8bba',
+                pointStrokeColor: 'rgba(60,141,188,1)',
+                pointHighlightFill: '#fff',
+                pointHighlightStroke: 'rgba(60,141,188,1)',
+                data: [28, 48, 40, 19, 86, 27, 90]
+            },
+            {
+                label: 'Electronics',
+                backgroundColor: 'rgba(210, 214, 222, 1)',
+                borderColor: 'rgba(210, 214, 222, 1)',
+                pointRadius: false,
+                pointColor: 'rgba(210, 214, 222, 1)',
+                pointStrokeColor: '#c1c7d1',
+                pointHighlightFill: '#fff',
+                pointHighlightStroke: 'rgba(220,220,220,1)',
+                data: [65, 59, 80, 81, 56, 55, 40]
+            },
             ]
         }
 
@@ -306,6 +312,20 @@
                 'Safari',
                 'Opera',
                 'Navigator',
+            ],
+            datasets: [{
+                data: [700, 500, 400, 600, 300, 100],
+                backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+            }]
+        }
+        var donutData2 = {
+            labels: [
+                'A',
+                'B',
+                'C',
+                'D',
+                'E',
+                'F',
             ],
             datasets: [{
                 data: [700, 500, 400, 600, 300, 100],
@@ -368,33 +388,39 @@
             options: barChartOptions2
         })
 
-        //Date picker 1
-        $('#reservationdate').datetimepicker({
-            format: 'DD/MM/YYYY',
-            date: moment(),
+        $('#range1').datepicker({
+            format: "dd/mm/yyyy",
+            todayBtn: "linked",
+            language: "vi",
             todayHighlight: true,
-            buttons: {
-                showClear: true,
-                showToday: true,
-                showClose: true
-            },
+            autoclose: true,
+            // format: "mm/yyyy",
+            // startView: "months", 
+            // minViewMode: "months"
         });
 
-        $('#reservationdate').on('change.datetimepicker', function(date, oldDate) {
-            console.log(date, oldDate);
+        $('#range2').datepicker({
+            todayBtn: "linked",
+            language: "vi",
+            todayHighlight: true,
+            autoclose: true,
+            format: "mm/yyyy",
+            startView: "months", 
+            minViewMode: "months"
         });
 
-        //Date picker 2
-        $('#reservationdate2').datetimepicker({
-            format: 'MM/YYYY',
-            date: moment(),
-            todayHighlight: true,
-            buttons: {
-                showClear: true,
-                showToday: true,
-                showClose: true
-            },
-        });
+        $('#range1').on('change', function() {
+            console.log($(this).val());
+        })
+
+        $('#range2').on('change', function() {
+            console.log($(this).val());
+            new Chart(donutChartCanvas, {
+                type: 'doughnut',
+                data: donutData2,
+                options: donutOptions
+            })
+        })
     })
 </script>
 @endsection

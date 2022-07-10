@@ -60,6 +60,10 @@ Route::middleware('auth:admin')->group(function (){
     Route::get('/expense', [ShopController::class, 'expense'])->name('admin.expense');
     Route::get('/branch', [ShopController::class, 'branch'])->name('admin.branch');
 
+    Route::get('/revenue/date/{d}', [ShopController::class, 'revenueDate']);
+    Route::get('/revenue/month/{m}', [ShopController::class, 'revenueMonth']);
+    Route::get('/revenue/month/{y}', [ShopController::class, 'revenueYear']);
+
     // Table
     Route::get('/manage-table', [TableController::class, 'table'])->name('admin.table');
     Route::get('/get-table', [TableController::class, 'getTable'])->name('admin.get-table');
