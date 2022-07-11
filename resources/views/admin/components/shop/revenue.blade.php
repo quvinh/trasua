@@ -63,7 +63,7 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">Sản phẩm</span>
-                            <span class="info-box-number">1,410</span>
+                            <span class="info-box-number" id="soldInDate">1,410</span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -76,7 +76,7 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">Doanh thu ngày</span>
-                            <span class="info-box-number">410</span>
+                            <span class="info-box-number" id="revenueInDate">410</span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -106,7 +106,7 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">Sản phẩm</span>
-                            <span class="info-box-number">1,410</span>
+                            <span class="info-box-number" id="soldInMonth">1,410</span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -119,7 +119,7 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">Doanh thu tháng</span>
-                            <span class="info-box-number">410</span>
+                            <span class="info-box-number" id="revenueInMonth">410</span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -134,7 +134,7 @@
                     <!-- BAR CHART -->
                     <div class="card card-secondary">
                         <div class="card-header">
-                            <h3 class="card-title">Bar Chart</h3>
+                            <h3 class="card-title">Biểu đồ cột</h3>
 
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -147,8 +147,7 @@
                         </div>
                         <div class="card-body">
                             <div class="chart">
-                                <canvas id="barChart"
-                                    style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                             </div>
                         </div>
                         <!-- /.card-body -->
@@ -160,7 +159,7 @@
                     <!-- DONUT CHART -->
                     <div class="card card-warning">
                         <div class="card-header">
-                            <h3 class="card-title">Donut Chart</h3>
+                            <h3 class="card-title">Biểu đồ tròn</h3>
 
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -172,8 +171,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <canvas id="donutChart"
-                                style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                            <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -201,8 +199,7 @@
                         </div>
                         <div class="card-body">
                             <div class="chart">
-                                <canvas id="barChart2"
-                                    style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                <canvas id="barChart2" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                             </div>
                         </div>
                         <!-- /.card-body -->
@@ -237,156 +234,100 @@
 <!-- Page specific script -->
 <link id="bsdp-css" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet">
 <script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
-<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/locales/bootstrap-datepicker.vi.min.js" charset="UTF-8"></script>    
+<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/locales/bootstrap-datepicker.vi.min.js" charset="UTF-8"></script>
 <script>
-    $(function () {
+    $(function() {
         /* ChartJS
          * -------
          * Here we will create a few charts using ChartJS
          */
 
-        var areaChartData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [{
-                label: 'Digital Goods',
-                backgroundColor: 'rgba(60,141,188,0.9)',
-                borderColor: 'rgba(60,141,188,0.8)',
-                pointRadius: false,
-                pointColor: '#3b8bba',
-                pointStrokeColor: 'rgba(60,141,188,1)',
-                pointHighlightFill: '#fff',
-                pointHighlightStroke: 'rgba(60,141,188,1)',
-                data: [28, 48, 40, 19, 86, 27, 90]
-            },
-            {
-                label: 'Electronics',
-                backgroundColor: 'rgba(210, 214, 222, 1)',
-                borderColor: 'rgba(210, 214, 222, 1)',
-                pointRadius: false,
-                pointColor: 'rgba(210, 214, 222, 1)',
-                pointStrokeColor: '#c1c7d1',
-                pointHighlightFill: '#fff',
-                pointHighlightStroke: 'rgba(220,220,220,1)',
-                data: [65, 59, 80, 81, 56, 55, 40]
-            },
-            ]
-        }
+        // var areaChartData = {
+        //     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        //     datasets: [{
+        //             label: 'Digital Goods',
+        //             backgroundColor: 'rgba(60,141,188,0.9)',
+        //             borderColor: 'rgba(60,141,188,0.8)',
+        //             pointRadius: false,
+        //             pointColor: '#3b8bba',
+        //             pointStrokeColor: 'rgba(60,141,188,1)',
+        //             pointHighlightFill: '#fff',
+        //             pointHighlightStroke: 'rgba(60,141,188,1)',
+        //             data: [28, 48, 40, 19, 86, 27, 90]
+        //         },
+        //         {
+        //             label: 'Electronics',
+        //             backgroundColor: 'rgba(210, 214, 222, 1)',
+        //             borderColor: 'rgba(210, 214, 222, 1)',
+        //             pointRadius: false,
+        //             pointColor: 'rgba(210, 214, 222, 1)',
+        //             pointStrokeColor: '#c1c7d1',
+        //             pointHighlightFill: '#fff',
+        //             pointHighlightStroke: 'rgba(220,220,220,1)',
+        //             data: [65, 59, 80, 81, 56, 55, 40]
+        //         },
+        //     ]
+        // }
 
-        var areaChartData2 = {
-            labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
-            datasets: [{
-                label: 'Digital Goods',
-                backgroundColor: 'rgba(60,141,188,0.9)',
-                borderColor: 'rgba(60,141,188,0.8)',
-                pointRadius: false,
-                pointColor: '#3b8bba',
-                pointStrokeColor: 'rgba(60,141,188,1)',
-                pointHighlightFill: '#fff',
-                pointHighlightStroke: 'rgba(60,141,188,1)',
-                data: [28, 48, 40, 19, 86, 27, 90]
-            },
-            {
-                label: 'Electronics',
-                backgroundColor: 'rgba(210, 214, 222, 1)',
-                borderColor: 'rgba(210, 214, 222, 1)',
-                pointRadius: false,
-                pointColor: 'rgba(210, 214, 222, 1)',
-                pointStrokeColor: '#c1c7d1',
-                pointHighlightFill: '#fff',
-                pointHighlightStroke: 'rgba(220,220,220,1)',
-                data: [65, 59, 80, 81, 56, 55, 40]
-            },
-            ]
-        }
+
 
         //-------------
         //- DONUT CHART -
         //-------------
         // Get context with jQuery - using jQuery's .get() method.
-        var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
-        var donutData = {
-            labels: [
-                'Chrome',
-                'IE',
-                'FireFox',
-                'Safari',
-                'Opera',
-                'Navigator',
-            ],
-            datasets: [{
-                data: [700, 500, 400, 600, 300, 100],
-                backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
-            }]
-        }
-        var donutData2 = {
-            labels: [
-                'A',
-                'B',
-                'C',
-                'D',
-                'E',
-                'F',
-            ],
-            datasets: [{
-                data: [700, 500, 400, 600, 300, 100],
-                backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
-            }]
-        }
-        var donutOptions = {
-            maintainAspectRatio: false,
-            responsive: true,
-        }
-        //Create pie or douhnut chart
-        // You can switch between pie and douhnut using the method below.
-        new Chart(donutChartCanvas, {
-            type: 'doughnut',
-            data: donutData,
-            options: donutOptions
-        })
+        // var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+        // var donutData = {
+        //     labels: [
+        //         'Chrome',
+        //         'IE',
+        //         'FireFox',
+        //         'Safari',
+        //         'Opera',
+        //         'Navigator',
+        //     ],
+        //     datasets: [{
+        //         data: [700, 500, 400, 600, 300, 100],
+        //         backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+        //     }]
+        // }
+        // var donutOptions = {
+        //     maintainAspectRatio: false,
+        //     responsive: true,
+        // }
+        // //Create pie or douhnut chart
+        // // You can switch between pie and douhnut using the method below.
+        // new Chart(donutChartCanvas, {
+        //     type: 'doughnut',
+        //     data: donutData,
+        //     options: donutOptions
+        // })
 
         //-------------
         //- BAR CHART -
         //-------------
-        var barChartCanvas = $('#barChart').get(0).getContext('2d')
-        var barChartData = $.extend(true, {}, areaChartData)
-        var temp0 = areaChartData.datasets[0]
-        var temp1 = areaChartData.datasets[1]
-        barChartData.datasets[0] = temp1
-        barChartData.datasets[1] = temp0
+        // var barChartCanvas = $('#barChart').get(0).getContext('2d')
+        // var barChartData = $.extend(true, {}, areaChartData)
+        // var temp0 = areaChartData.datasets[0]
+        // var temp1 = areaChartData.datasets[1]
+        // barChartData.datasets[0] = temp1
+        // barChartData.datasets[1] = temp0
 
-        var barChartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            datasetFill: false
-        }
+        // var barChartOptions = {
+        //     responsive: true,
+        //     maintainAspectRatio: false,
+        //     datasetFill: false
+        // }
 
-        new Chart(barChartCanvas, {
-            type: 'bar',
-            data: barChartData,
-            options: barChartOptions
-        })
+        // new Chart(barChartCanvas, {
+        //     type: 'bar',
+        //     data: barChartData,
+        //     options: barChartOptions
+        // })
 
         //-------------
         //- BAR CHART2 -
         //-------------
-        var barChartCanvas2 = $('#barChart2').get(0).getContext('2d')
-        var barChartData2 = $.extend(true, {}, areaChartData2)
-        var temp02 = areaChartData2.datasets[0]
-        var temp12 = areaChartData2.datasets[1]
-        barChartData2.datasets[0] = temp1
-        barChartData2.datasets[1] = temp0
 
-        var barChartOptions2 = {
-            responsive: true,
-            maintainAspectRatio: false,
-            datasetFill: false
-        }
-
-        new Chart(barChartCanvas2, {
-            type: 'bar',
-            data: barChartData2,
-            options: barChartOptions2
-        })
 
         $('#range1').datepicker({
             format: "dd/mm/yyyy",
@@ -405,22 +346,202 @@
             todayHighlight: true,
             autoclose: true,
             format: "mm/yyyy",
-            startView: "months", 
+            startView: "months",
             minViewMode: "months"
         });
 
         $('#range1').on('change', function() {
-            console.log($(this).val());
+            let day = ($(this).val()).split('/');
+            let date = moment().format('YYYY-MM-DD');
+            if (isNaN(day[0]) || isNaN(day[1]) || isNaN(day[2])) {
+                date = moment().format('YYYY-MM-DD');
+            } else {
+                date = day[2] + '-' + day[1] + '-' + day[0];
+            }
+            fetchDate(date);
         })
 
         $('#range2').on('change', function() {
             console.log($(this).val());
-            new Chart(donutChartCanvas, {
-                type: 'doughnut',
-                data: donutData2,
-                options: donutOptions
-            })
+            let lmonth = ($(this).val()).split('/');
+            let month = moment().format('YYYY-MM-DD');
+            if (isNaN(lmonth[0]) || isNaN(lmonth[1])) {
+                month = moment().format('YYYY-MM-DD');
+            } else {
+                month = lmonth[0] + '-' + lmonth[1];
+            }
+            fetchMonth(month);
+            // new Chart(donutChartCanvas, {
+            //     type: 'doughnut',
+            //     data: donutData2,
+            //     options: donutOptions
+            // })
         })
+
+        // AJAX
+        function fetchDate(date) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: 'GET',
+                url: 'revenue/date/' + date,
+                dataType: 'json',
+                success: function(res) {
+                    console.log(res);
+                    $('#soldInDate').text(res.numSold ? (res.numSold).toLocaleString() : 0);
+                    $('#revenueInDate').text(res.revenue ? (res.revenue).toLocaleString() + ' đ' : 0);
+                },
+                error: function(error) {}
+            })
+        }
+
+        function fetchMonth(month) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: 'GET',
+                url: 'revenue/month/' + month,
+                dataType: 'json',
+                success: function(res) {
+                    console.log(res);
+                    var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+                    var donutData2 = {
+                        labels: res.donut.map((item) => item.name),
+                        datasets: [{
+                            data: res.donut.map((item) => item.money),
+                            backgroundColor: res.donut.map((item) => ('#' + Math.floor(Math.random() * 16777215).toString(16))),
+                        }]
+                    }
+                    var donutOptions = {
+                        maintainAspectRatio: false,
+                        responsive: true,
+                    }
+                    var areaChartData = {
+                        labels: res.bar.map((item) => (item.day + '/' + month.substring(0, 2))),
+                        datasets: [{
+                            label: 'Doanh thu',
+                            backgroundColor: 'rgb(117, 163, 163)',
+                            borderColor: 'rgba(60,141,188,0.8)',
+                            pointRadius: false,
+                            pointColor: '#3b8bba',
+                            pointStrokeColor: 'rgba(60,141,188,1)',
+                            pointHighlightFill: '#fff',
+                            pointHighlightStroke: 'rgba(60,141,188,1)',
+                            data: res.bar.map((item) => item.money)
+                        }, ]
+                    }
+                    var barChartCanvas = $('#barChart').get(0).getContext('2d')
+                    var barChartData = $.extend(true, {}, areaChartData)
+                    var temp0 = areaChartData.datasets[0]
+                    barChartData.datasets[0] = temp0
+
+                    var barChartOptions = {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        datasetFill: false
+                    }
+                    new Chart(donutChartCanvas, {
+                        type: 'doughnut',
+                        data: donutData2,
+                        options: donutOptions
+                    })
+
+                    new Chart(barChartCanvas, {
+                        type: 'bar',
+                        data: barChartData,
+                        options: barChartOptions
+                    })
+                    $('#soldInMonth').text(res.numSold ? (res.numSold).toLocaleString() : 0);
+                    $('#revenueInMonth').text(res.revenue ? (res.revenue).toLocaleString() + ' đ' : 0);
+                },
+                error: function(error) {}
+            })
+        }
+
+        function fetchYear(year) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: 'GET',
+                url: 'revenue/year/' + year,
+                dataType: 'json',
+                success: function(res) {
+                    // console.log(res.revenue.filter((item) => item.month === 7)[0].revenue);
+                    var data = [];
+                    var month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+                    var addMonth = month.filter((item) => !res.revenue.map((value) => value.month).includes(item));
+                    addMonth && addMonth.map((item) => {
+                        data.push({
+                            month: item,
+                            revenue: 0
+                        });
+                    });
+                    data.push(
+                        ...res.revenue
+                    );
+                    data.sort((a, b) => a.month - b.month);
+                    // console.log(data.sort((a, b) => a.month - b.month));
+                    var areaChartData2 = {
+                        labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                        datasets: [{
+                                label: 'Doanh thu',
+                                backgroundColor: 'rgba(60,141,188,0.9)',
+                                borderColor: 'rgba(60,141,188,0.8)',
+                                pointRadius: false,
+                                pointColor: '#3b8bba',
+                                pointStrokeColor: 'rgba(60,141,188,1)',
+                                pointHighlightFill: '#fff',
+                                pointHighlightStroke: 'rgba(60,141,188,1)',
+                                data: data.map((item) => item.revenue)
+                            },
+                            {
+                                label: 'Chi phí',
+                                backgroundColor: 'rgba(210, 214, 222, 1)',
+                                borderColor: 'rgba(210, 214, 222, 1)',
+                                pointRadius: false,
+                                pointColor: 'rgba(210, 214, 222, 1)',
+                                pointStrokeColor: '#c1c7d1',
+                                pointHighlightFill: '#fff',
+                                pointHighlightStroke: 'rgba(220,220,220,1)',
+                                data: [0, 0]
+                            },
+                        ]
+                    }
+                    var barChartCanvas2 = $('#barChart2').get(0).getContext('2d')
+                    var barChartData2 = $.extend(true, {}, areaChartData2)
+                    var temp02 = areaChartData2.datasets[0]
+                    var temp12 = areaChartData2.datasets[1]
+                    barChartData2.datasets[0] = temp12
+                    barChartData2.datasets[1] = temp02
+
+                    var barChartOptions2 = {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        datasetFill: false
+                    }
+
+                    new Chart(barChartCanvas2, {
+                        type: 'bar',
+                        data: barChartData2,
+                        options: barChartOptions2
+                    })
+                },
+                error: function(error) {}
+            })
+        }
+
+        fetchDate(moment().format('YYYY-MM-DD'));
+        fetchMonth(moment().format('MM-YYYY'));
+        fetchYear(moment().format('YYYY'))
     })
 </script>
 @endsection

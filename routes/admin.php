@@ -62,7 +62,7 @@ Route::middleware('auth:admin')->group(function (){
 
     Route::get('/revenue/date/{d}', [ShopController::class, 'revenueDate']);
     Route::get('/revenue/month/{m}', [ShopController::class, 'revenueMonth']);
-    Route::get('/revenue/month/{y}', [ShopController::class, 'revenueYear']);
+    Route::get('/revenue/year/{y}', [ShopController::class, 'revenueYear']);
 
     // Table
     Route::get('/manage-table', [TableController::class, 'table'])->name('admin.table');
