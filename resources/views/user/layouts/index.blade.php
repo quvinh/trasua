@@ -125,12 +125,12 @@ Trà sữa Tẹt
         <div class="container">
             <div class="col-md-12">
                 <div class="box slideshow">
-                    <h3>Get Inspired</h3>
-                    <p class="lead">Get the inspiration from our world class designers</p>
+                    <h3>Tẹt</h3>
+                    <p class="lead">Trà sữa Tẹt</p>
                     <div id="get-inspired" class="owl-carousel owl-theme">
-                        <div class="item"><a href="#"><img src="img/getinspired1.jpg" alt="Get inspired" class="img-fluid"></a></div>
-                        <div class="item"><a href="#"><img src="img/getinspired2.jpg" alt="Get inspired" class="img-fluid"></a></div>
-                        <div class="item"><a href="#"><img src="img/getinspired3.jpg" alt="Get inspired" class="img-fluid"></a></div>
+                        <div class="item"><a href="#"><img src="{{ asset('page/img/footer-slider1.webp') }}" alt="Get inspired" class="img-fluid"></a></div>
+                        <div class="item"><a href="#"><img src="{{ asset('page/img/footer-slider2.webp') }}" alt="Get inspired" class="img-fluid"></a></div>
+                        <div class="item"><a href="#"><img src="{{ asset('page/img/footer-slider3.webp') }}" alt="Get inspired" class="img-fluid"></a></div>
                     </div>
                 </div>
             </div>
@@ -143,8 +143,8 @@ Trà sữa Tẹt
         <div class="box text-center">
             <div class="container">
                 <div class="col-md-12">
-                    <h3 class="text-uppercase">From our blog</h3>
-                    <p class="lead mb-0">What's new in the world of fashion? <a href="blog.html">Check our blog!</a></p>
+                    <h3 class="text-uppercase">Bài đăng</h3>
+                    <p class="lead mb-0">Đọc bài đăng về Trà sữa Tẹt? <a href="#">Vào bài đăng!</a></p>
                 </div>
             </div>
         </div>
@@ -153,19 +153,19 @@ Trà sữa Tẹt
                 <div id="blog-homepage" class="row">
                     <div class="col-sm-6">
                         <div class="post">
-                            <h4><a href="post.html">Fashion now</a></h4>
-                            <p class="author-category">By <a href="#">John Slim</a> in <a href="">Fashion and style</a></p>
+                            <h4><a href="post.html">Tẹt</a></h4>
+                            <p class="author-category">By <a href="#">Boicudon</a></p>
                             <hr>
-                            <p class="intro">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+                            <p class="intro text-center">Hôm nay làm việc mệt rồi. Bên ly trà sữa, ta ngồi có đôi.</p>
                             <p class="read-more"><a href="post.html" class="btn btn-primary">Continue reading</a></p>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="post">
-                            <h4><a href="post.html">Who is who - example blog post</a></h4>
-                            <p class="author-category">By <a href="#">John Slim</a> in <a href="">About Minimal</a></p>
+                            <h4><a href="post.html">Tà tưa</a></h4>
+                            <p class="author-category">By <a href="#">FromChienThangwithLove</a></p>
                             <hr>
-                            <p class="intro">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+                            <p class="intro text-center">Xếp hàng chờ đợi đã lâu. Chờ ly trà sữa, chờ câu ân tình.</p>
                             <p class="read-more"><a href="post.html" class="btn btn-primary">Continue reading</a></p>
                         </div>
                     </div>

@@ -124,51 +124,53 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-6">
-                    <h4 class="mb-3">Pages</h4>
+                    <h4 class="mb-3">Trang website</h4>
                     <ul class="list-unstyled">
-                        <li><a href="text.html">About us</a></li>
-                        <li><a href="text.html">Terms and conditions</a></li>
-                        <li><a href="faq.html">FAQ</a></li>
-                        <li><a href="contact.html">Contact us</a></li>
+                        <li><a href="text.html">Về cửa hàng</a></li>
+                        <li><a href="text.html">Chính sách và điều khoản</a></li>
+                        <li><a href="faq.html">Câu hỏi thường gặp</a></li>
+                        <li><a href="contact.html">Liên hệ cửa hàng</a></li>
                     </ul>
                     <hr>
-                    <h4 class="mb-3">User section</h4>
+                    <h4 class="mb-3">Người dùng</h4>
                     <ul class="list-unstyled">
-                        <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a></li>
-                        <li><a href="register.html">Regiter</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#login-modal">Đăng nhập</a></li>
+                        <li><a href="register.html">Đăng ký</a></li>
                     </ul>
                 </div>
                 <!-- /.col-lg-3-->
                 <div class="col-lg-3 col-md-6">
-                    <h4 class="mb-3">Top categories</h4>
-                    <h5>Men</h5>
+                    <h4 class="mb-3">Menu chính</h4>
+                    <h5>Trà sữa</h5>
                     <ul class="list-unstyled">
-                        <li><a href="category.html">T-shirts</a></li>
-                        <li><a href="category.html">Shirts</a></li>
-                        <li><a href="category.html">Accessories</a></li>
+                        <li><a href="#">Trà sữa trân châu nướng</a></li>
+                        <li><a href="#">Trà sữa bách nghệ</a></li>
+                        <li><a href="#">Trà sữa matcha</a></li>
                     </ul>
-                    <h5>Ladies</h5>
-                    <ul class="list-unstyled">
+                    <h5>Nước giải khát</h5>
+                    <!-- <ul class="list-unstyled">
                         <li><a href="category.html">T-shirts</a></li>
                         <li><a href="category.html">Skirts</a></li>
                         <li><a href="category.html">Pants</a></li>
                         <li><a href="category.html">Accessories</a></li>
-                    </ul>
+                    </ul> -->
                 </div>
                 <!-- /.col-lg-3-->
                 <div class="col-lg-3 col-md-6">
-                    <h4 class="mb-3">Where to find us</h4>
-                    <p><strong>Obaju Ltd.</strong><br>13/25 New Avenue<br>New Heaven<br>45Y 73J<br>England<br><strong>Great Britain</strong></p><a href="contact.html">Go to contact page</a>
+                    <h4 class="mb-3">Địa chỉ</h4>
+                    <p><strong>Trà sữa Tẹt.</strong><br>Thôn Côn Lĩnh<br>Xã Chiến Thắng<br>Huyện An Lão<br>TP Hải Phòng<br><strong>Việt Nam</strong></p><a href="#">Tới trang liên hệ</a>
                     <hr class="d-block d-md-none">
                 </div>
                 <!-- /.col-lg-3-->
                 <div class="col-lg-3 col-md-6">
-                    <h4 class="mb-3">Get the news</h4>
-                    <p class="text-muted">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+                    <h4 class="mb-3">Giới thiệu</h4>
+                    <p class="text-muted">Topping của Tẹt chưa bao giờ làm bạn thất vọng nay lại được double luôn!
+
+                        Trà sữa hoà quyện cùng kem phô mai béo mặn và thêm trân châu sương mai giòn dai, trân châu hoàng kim và trân châu sợi dẻo thơm, các loại thạch đa dạng của Tẹt… chắc hẳn sẽ khiến các tín đồ topping xao xuyến.</p>
                     <form>
                         <div class="input-group">
                             <input type="text" class="form-control"><span class="input-group-append">
-                                <button type="button" class="btn btn-outline-secondary">Subscribe!</button></span>
+                                <button type="button" class="btn btn-outline-secondary">Đăng ký!</button></span>
                         </div>
                         <!-- /input-group-->
                     </form>
@@ -194,10 +196,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 mb-2 mb-lg-0">
-                    <p class="text-center text-lg-left">©2019 Your name goes here.</p>
+                    <p class="text-center text-lg-left">©2022 TrasuaTet.</p>
                 </div>
                 <div class="col-lg-6">
-                    <p class="text-center text-lg-right">Template design by <a href="https://bootstrapious.com/">Bootstrapious</a>
+                    <p class="text-center text-lg-right">Template design by <a href="#">Zinh</a>
                         <!-- If you want to remove this backlink, pls purchase an Attribution-free License @ https://bootstrapious.com/p/obaju-e-commerce-template. Big thanks!-->
                     </p>
                 </div>
