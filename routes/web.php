@@ -18,6 +18,7 @@ use App\Http\Controllers\User\HomeController;
 Route::match(['get', 'post'], '/login', [LoginController::class, 'login'])->name('login');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/danh-muc', [HomeController::class, 'category'])->name('category');
 Route::middleware('auth')->group(function (){
     Route::get('/home', [HomeController::class, 'needLogin']);
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');

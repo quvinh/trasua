@@ -15,6 +15,11 @@ class HomeController extends Controller
         return view('user.layouts.index');
     }
 
+    public function category()
+    {
+        return view('user.components.category');
+    }
+
     public function needLogin()
     {
         $user = Auth::user();

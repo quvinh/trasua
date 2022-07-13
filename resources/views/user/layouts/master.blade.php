@@ -52,34 +52,7 @@
                     </div>
                 </div>
             </div>
-            <div id="login-modal" tabindex="-1" role="dialog" aria-labelledby="Login" aria-hidden="true" class="modal fade">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Customer login</h5>
-                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="customer-orders.html" method="post">
-                                <div class="form-group">
-                                    <input id="email-modal" type="text" placeholder="email" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <input id="password-modal" type="password" placeholder="password" class="form-control">
-                                </div>
-                                <p class="text-center">
-                                    <button class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in</button>
-                                </p>
-                            </form>
-                            <p class="text-center text-muted">Not registered yet?</p>
-                            <p class="text-center text-muted"><a href="register.html"><strong>Register now</strong></a>! It is easy and done in 1 minute and gives you access to special discounts and much more!</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <!-- *** TOP BAR END ***-->
-
-
         </div>
         <nav class="navbar navbar-expand-lg">
             <div class="container"><a href="{{ url('/') }}" class="navbar-brand home"><img src="{{ asset('page/img/logo.png') }}" alt="TrasuaTet logo" class="d-none d-md-inline-block"><img src="{{ asset('page/img/logo.png') }}" width="84px" alt="TrasuaTet logo" class="d-inline-block d-md-none"><span class="sr-only">Obaju - go to homepage</span></a>
@@ -90,8 +63,7 @@
                 <div id="navigation" class="collapse navbar-collapse">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item"><a href="#" class="nav-link">Trang chủ</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">Cửa hàng</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">Sản phẩm</a></li>
+                        <li class="nav-item"><a href="{{ route('category') }}" class="nav-link">Đặt hàng</a></li>
                         <li class="nav-item"><a href="#" class="nav-link">Giỏ hàng</a></li>
                     </ul>
                     <div class="navbar-buttons d-flex justify-content-end">
