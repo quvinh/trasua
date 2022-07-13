@@ -33,9 +33,11 @@ Danh mục
                                 $categories = DB::table('categories')->orderByDesc('name')->get();
                                 @endphp
                                 @foreach($categories as $category)
-                                $list = DB::table('products')->where([['id_category', '=', $category->id_category], ['visible', '=', 1]])->orderByDesc('name')->take(10)->get();
+                                @php
+                                $list = DB::table('products')->where([['id_category', '=', $category->id_category], ['visible', '=', 1]])->orderByDesc('name');
                                 $count = $list->count();
                                 $products = $list->take(10)->get();
+                                @endphp
                                 <li><a href="#" class="nav-link">{{ $category->name }} <span class="badge badge-secondary">{{ $count }}</span></a>
                                     <ul class="list-unstyled">
                                         @foreach($products as $product)
@@ -49,81 +51,37 @@ Danh mục
                     </div>
                     <div class="card sidebar-menu mb-4">
                         <div class="card-header">
-                            <h3 class="h4 card-title">Brands <a href="#" class="btn btn-sm btn-danger pull-right"><i class="fa fa-times-circle"></i> Clear</a></h3>
+                            <h3 class="h4 card-title">Size <a href="#" class="btn btn-sm btn-danger pull-right"><i class="fa fa-times-circle"></i> Reset</a></h3>
                         </div>
                         <div class="card-body">
                             <form>
                                 <div class="form-group">
+                                    @php
+                                    $sizes = DB::table('sizes')->get();
+                                    @endphp
+                                    @foreach($sizes as $size)
+                                    @php
+                                    $count = DB::table('products')->where('id_size', $size->id_size)->count();
+                                    @endphp
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox"> Armani (10)
+                                            <input type="checkbox" value="{{ $size->id_size }}" @if($count == 0) {{ 'disabled' }} @endif> {{ $size->name }} ({{ $count }})
                                         </label>
                                     </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> Versace (12)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> Carlo Bruni (15)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> Jack Honey (14)
-                                        </label>
-                                    </div>
+                                    @endforeach
                                 </div>
-                                <button class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Apply</button>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="card sidebar-menu mb-4">
-                        <div class="card-header">
-                            <h3 class="h4 card-title">Colours <a href="#" class="btn btn-sm btn-danger pull-right"><i class="fa fa-times-circle"></i> Clear</a></h3>
-                        </div>
-                        <div class="card-body">
-                            <form>
-                                <div class="form-group">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"><span class="colour white"></span> White (14)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"><span class="colour blue"></span> Blue (10)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"><span class="colour green"></span> Green (20)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"><span class="colour yellow"></span> Yellow (13)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"><span class="colour red"></span> Red (10)
-                                        </label>
-                                    </div>
-                                </div>
-                                <button class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Apply</button>
+                                <button class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Duyệt</button>
                             </form>
                         </div>
                     </div>
                     <!-- *** MENUS AND FILTERS END ***-->
-                    <div class="banner"><a href="#"><img src="img/banner.jpg" alt="sales 2014" class="img-fluid"></a></div>
+                    <div class="banner"><a href="#"><img src="{{ asset('page/img/slider1.jpg') }}" alt="sales" class="img-fluid"></a></div>
                 </div>
                 <div class="col-lg-9">
-                    <div class="box">
+                    <!-- <div class="box">
                         <h1>Ladies</h1>
                         <p>In our Ladies department we offer wide selection of the best products we have found and carefully selected worldwide.</p>
-                    </div>
+                    </div> -->
                     <div class="box info-bar">
                         <div class="row">
                             <div class="col-md-12 col-lg-4 products-showing">Showing <strong>12</strong> of <strong>25</strong> products</div>
@@ -142,33 +100,43 @@ Danh mục
                         </div>
                     </div>
                     <div class="row products">
+                        @php
+                        $products = DB::table('products')->where([['visible', '=', 1], ['image', '<>', '']])->take(8)->get();
+                        @endphp
+                        @foreach($products as $product)
                         <div class="col-lg-4 col-md-6">
                             <div class="product">
                                 <div class="flip-container">
                                     <div class="flipper">
-                                        <div class="front"><a href="detail.html"><img src="img/product1.jpg" alt="" class="img-fluid"></a></div>
-                                        <div class="back"><a href="detail.html"><img src="img/product1_2.jpg" alt="" class="img-fluid"></a></div>
+                                        <div class="front"><a href="#"><img src="{{ asset('images/product/'.$product->image) }}" alt="" class="img-fluid"></a></div>
+                                        <div class="back"><a href="#"><img src="{{ asset('images/product/'.$product->image) }}" alt="" class="img-fluid"></a></div>
                                     </div>
-                                </div><a href="detail.html" class="invisible"><img src="img/product1.jpg" alt="" class="img-fluid"></a>
+                                </div><a href="#" class="invisible"><img src="{{ asset('images/product/'.$product->image) }}" alt="" class="img-fluid"></a>
                                 <div class="text">
-                                    <h3><a href="detail.html">Fur coat with very but very very long name</a></h3>
+                                    <h3><a href="#">{{ $product->name }}</a></h3>
                                     <p class="price">
-                                        <del></del>$143.00
+                                        <del>{{ number_format($product->promotional_price, 0, '', ',').' đ' }}</del>{{ number_format($product->price, 0, '', ',').' đ' }}
                                     </p>
-                                    <p class="buttons"><a href="detail.html" class="btn btn-outline-secondary">View detail</a><a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a></p>
+                                    <p class="buttons"><a href="#" class="btn btn-outline-secondary">Chi tiết</a><a href="#" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Giỏ hàng</a></p>
                                 </div>
                                 <!-- /.text-->
                             </div>
                             <!-- /.product            -->
+                            <div class="ribbon gift">
+                                <div class="theribbon">GIFT</div>
+                                <div class="ribbon-background"></div>
+                            </div>
+                            <!-- /.ribbon-->
                         </div>
+                        @endforeach
                         <div class="col-lg-4 col-md-6">
                             <div class="product">
                                 <div class="flip-container">
                                     <div class="flipper">
-                                        <div class="front"><a href="detail.html"><img src="img/product2.jpg" alt="" class="img-fluid"></a></div>
-                                        <div class="back"><a href="detail.html"><img src="img/product2_2.jpg" alt="" class="img-fluid"></a></div>
+                                        <div class="front"><a href="detail.html"><img src="{{ asset('page/img/product2.jpg') }}" alt="" class="img-fluid"></a></div>
+                                        <div class="back"><a href="detail.html"><img src="{{ asset('page/img/product2_2.jpg') }}" alt="" class="img-fluid"></a></div>
                                     </div>
-                                </div><a href="detail.html" class="invisible"><img src="img/product2.jpg" alt="" class="img-fluid"></a>
+                                </div><a href="detail.html" class="invisible"><img src="{{ asset('page/img/product2.jpg') }}" alt="" class="img-fluid"></a>
                                 <div class="text">
                                     <h3><a href="detail.html">White Blouse Armani</a></h3>
                                     <p class="price">
@@ -187,92 +155,6 @@ Danh mục
                                     <div class="ribbon-background"></div>
                                 </div>
                                 <!-- /.ribbon-->
-                                <div class="ribbon gift">
-                                    <div class="theribbon">GIFT</div>
-                                    <div class="ribbon-background"></div>
-                                </div>
-                                <!-- /.ribbon-->
-                            </div>
-                            <!-- /.product            -->
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front"><a href="detail.html"><img src="img/product3.jpg" alt="" class="img-fluid"></a></div>
-                                        <div class="back"><a href="detail.html"><img src="img/product3_2.jpg" alt="" class="img-fluid"></a></div>
-                                    </div>
-                                </div><a href="detail.html" class="invisible"><img src="img/product3.jpg" alt="" class="img-fluid"></a>
-                                <div class="text">
-                                    <h3><a href="detail.html">Black Blouse Versace</a></h3>
-                                    <p class="price">
-                                        <del></del>$143.00
-                                    </p>
-                                    <p class="buttons"><a href="detail.html" class="btn btn-outline-secondary">View detail</a><a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a></p>
-                                </div>
-                                <!-- /.text-->
-                            </div>
-                            <!-- /.product            -->
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front"><a href="detail.html"><img src="img/product3.jpg" alt="" class="img-fluid"></a></div>
-                                        <div class="back"><a href="detail.html"><img src="img/product3_2.jpg" alt="" class="img-fluid"></a></div>
-                                    </div>
-                                </div><a href="detail.html" class="invisible"><img src="img/product3.jpg" alt="" class="img-fluid"></a>
-                                <div class="text">
-                                    <h3><a href="detail.html">Black Blouse Versace</a></h3>
-                                    <p class="price">
-                                        <del></del>$143.00
-                                    </p>
-                                    <p class="buttons"><a href="detail.html" class="btn btn-outline-secondary">View detail</a><a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a></p>
-                                </div>
-                                <!-- /.text-->
-                            </div>
-                            <!-- /.product            -->
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front"><a href="detail.html"><img src="img/product2.jpg" alt="" class="img-fluid"></a></div>
-                                        <div class="back"><a href="detail.html"><img src="img/product2_2.jpg" alt="" class="img-fluid"></a></div>
-                                    </div>
-                                </div><a href="detail.html" class="invisible"><img src="img/product2.jpg" alt="" class="img-fluid"></a>
-                                <div class="text">
-                                    <h3><a href="detail.html">White Blouse Versace</a></h3>
-                                    <p class="price">
-                                        <del></del>$143.00
-                                    </p>
-                                    <p class="buttons"><a href="detail.html" class="btn btn-outline-secondary">View detail</a><a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a></p>
-                                </div>
-                                <!-- /.text-->
-                                <div class="ribbon new">
-                                    <div class="theribbon">NEW</div>
-                                    <div class="ribbon-background"></div>
-                                </div>
-                                <!-- /.ribbon-->
-                            </div>
-                            <!-- /.product            -->
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front"><a href="detail.html"><img src="img/product1.jpg" alt="" class="img-fluid"></a></div>
-                                        <div class="back"><a href="detail.html"><img src="img/product1_2.jpg" alt="" class="img-fluid"></a></div>
-                                    </div>
-                                </div><a href="detail.html" class="invisible"><img src="img/product1.jpg" alt="" class="img-fluid"></a>
-                                <div class="text">
-                                    <h3><a href="detail.html">Fur coat</a></h3>
-                                    <p class="price">
-                                        <del></del>$143.00
-                                    </p>
-                                    <p class="buttons"><a href="detail.html" class="btn btn-outline-secondary">View detail</a><a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a></p>
-                                </div>
-                                <!-- /.text-->
                                 <div class="ribbon gift">
                                     <div class="theribbon">GIFT</div>
                                     <div class="ribbon-background"></div>
