@@ -20,6 +20,9 @@ Route::match(['get', 'post'], '/register', [LoginController::class, 'register'])
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/danh-muc', [HomeController::class, 'category'])->name('category');
+Route::get('/danh-muc/search', [HomeController::class, 'searchCategory']);
+Route::get('/danh-muc/{id}', [HomeController::class, 'getCategory'])->name('get-category');
+
 Route::middleware('auth')->group(function (){
     Route::get('/home', [HomeController::class, 'needLogin']);
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');

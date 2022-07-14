@@ -20,6 +20,21 @@ class HomeController extends Controller
         return view('user.components.category');
     }
 
+    public function searchCategory(Request $request)
+    {
+        dd($request->all());
+    }
+
+    public function getCategory($id)
+    {
+        $idCategory = $id;
+        if(is_numeric($idCategory)) {
+            return view('user.components.category', compact('idCategory'));
+        } else {
+            return view('user.components.category');
+        }
+    }
+
     public function needLogin()
     {
         $user = Auth::user();
