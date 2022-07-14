@@ -44,8 +44,15 @@
                     </div>
                     <div class="col-lg-6 text-center text-lg-right">
                         <ul class="menu list-inline mb-0">
-                            <li class="list-inline-item"><a href="#" data-toggle="modal" data-target="#login-modal">Đăng nhập</a></li>
-                            <li class="list-inline-item"><a href="register.html">Đăng ký</a></li>
+                            @if(Route::has('login'))
+                            @auth
+                            <li class="list-inline-item"><a><i class="fa fa-user"></i> {{ Auth::user()->username }}</a></li>
+                            <li class="list-inline-item"><a href="{{ route('logout') }}">Đăng xuất</a></li>
+                            @else
+                            <li class="list-inline-item"><a href="{{ route('login') }}">Đăng nhập</a></li>
+                            <li class="list-inline-item"><a href="{{ route('register') }}">Đăng ký</a></li>
+                            @endauth
+                            @endif
                             <li class="list-inline-item"><a href="contact.html">Liên hệ</a></li>
                             <li class="list-inline-item"><a href="#">Mục đã xem</a></li>
                         </ul>
@@ -106,8 +113,15 @@
                     <hr>
                     <h4 class="mb-3">Người dùng</h4>
                     <ul class="list-unstyled">
-                        <li><a href="#" data-toggle="modal" data-target="#login-modal">Đăng nhập</a></li>
-                        <li><a href="register.html">Đăng ký</a></li>
+                        @if(Route::has('login'))
+                        @auth
+                        <li><a><i class="fa fa-user"></i> {{ Auth::user()->username }}</a></li>
+                        <li><a href="{{ route('logout') }}">Đăng xuất</a></li>
+                        @else
+                        <li><a href="{{ route('login') }}">Đăng nhập</a></li>
+                        <li><a href="{{ route('register') }}">Đăng ký</a></li>
+                        @endauth
+                        @endif
                     </ul>
                 </div>
                 <!-- /.col-lg-3-->

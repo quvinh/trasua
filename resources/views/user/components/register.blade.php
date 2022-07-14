@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Đăng nhập</title>
+    <title>Đăng ký</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -39,30 +39,33 @@
             <div class="container" style="padding-top: 90px;">
                 <div class="card">
                     <div class="card-header text-center">
-                        <h3 class="card-title"><a href="{{ url('/') }}"><img src="{{ asset('page/img/logo.png') }}" alt="Tẹt" height="48px"></a> <b style="color:#00c5c9;">Đăng nhập</b></h3>
+                        <h3 class="card-title"><a href="{{ url('/') }}"><img src="{{ asset('page/img/logo.png') }}" alt="Tẹt" height="48px"></a> <b style="color:#00c5c9;">Đăng ký</b></h3>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="card-body">
-                                    <form method="POST" action="{{ route('login') }}">
-                                    @csrf
+                                <div class="box">
+                                    <form action="customer-orders.html" method="post">
                                         <div class="form-group">
-                                            <input type="text" name="username" placeholder="Tên đăng nhập" class="form-control">
+                                            <label for="name">Name</label>
+                                            <input id="name" type="text" class="form-control">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" name="password" placeholder="Mật khẩu" class="form-control">
+                                            <label for="email">Email</label>
+                                            <input id="email" type="text" class="form-control">
                                         </div>
-                                        <p class="text-center">
-                                            <button type="submit" class="btn btn-primary"><i class="fa fa-sign-in"></i> Đăng nhập</button>
-                                        </p>
+                                        <div class="form-group">
+                                            <label for="password">Password</label>
+                                            <input id="password" type="password" class="form-control">
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary"><i class="fa fa-user-md"></i> Đăng ký tài khoản</button>
+                                        </div>
                                     </form>
+                                    <br>
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <p class="text-center text-muted">Chưa có tài khoản? <u><a href="{{ route('register') }}">Đăng ký</a></u></p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p class="text-center text-muted"><a href="#">Quên mật khẩu?</a></p>
+                                        <div class="col-md-12">
+                                            <p class="text-center text-muted">Đã có tài khoản? <u><a href="{{ route('login') }}">Đăng nhập</a></u></p>
                                         </div>
                                     </div>
                                 </div>

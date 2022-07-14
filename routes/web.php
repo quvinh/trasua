@@ -16,6 +16,7 @@ use App\Http\Controllers\User\HomeController;
 */
 
 Route::match(['get', 'post'], '/login', [LoginController::class, 'login'])->name('login');
+Route::match(['get', 'post'], '/register', [LoginController::class, 'register'])->name('register');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/danh-muc', [HomeController::class, 'category'])->name('category');

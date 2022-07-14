@@ -22,6 +22,13 @@ class LoginController extends Controller
         }
     }
 
+    public function register(Request $request)
+    {
+        if ($request->getMethod() == 'GET') {
+            return view('user.components.register');
+        }
+    }
+
     public function logout()
     {
         Auth::logout();
