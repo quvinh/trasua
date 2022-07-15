@@ -23,6 +23,8 @@ Route::get('/danh-muc', [HomeController::class, 'category'])->name('category');
 Route::get('/danh-muc/search', [HomeController::class, 'searchCategory']);
 Route::get('/danh-muc/{id}', [HomeController::class, 'getCategory'])->name('get-category');
 
+Route::get('/san-pham/{id}', [HomeController::class, 'getProduct'])->name('get-product');
+
 Route::middleware('auth')->group(function (){
     Route::get('/home', [HomeController::class, 'needLogin']);
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');

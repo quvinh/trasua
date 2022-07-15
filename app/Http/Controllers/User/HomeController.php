@@ -35,6 +35,12 @@ class HomeController extends Controller
         }
     }
 
+    public function getProduct($id)
+    {
+        $idProduct = $id;
+        return view('user.components.product', compact('idProduct'));
+    }
+
     public function needLogin()
     {
         $user = Auth::user();
