@@ -38,7 +38,12 @@ class HomeController extends Controller
     public function getProduct($id)
     {
         $idProduct = $id;
-        return view('user.components.product', compact('idProduct'));
+        if(is_numeric($idProduct)) {
+            return view('user.components.product', compact('idProduct'));
+        } else {
+            return view('user.components.category');
+        }
+        
     }
 
     public function needLogin()
