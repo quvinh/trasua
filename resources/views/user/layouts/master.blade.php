@@ -63,19 +63,12 @@
             <!-- *** TOP BAR END ***-->
         </div>
         <nav class="navbar navbar-expand-lg">
-            <div class="container"><a href="{{ url('/') }}" class="navbar-brand home"><img
-                        src="{{ asset('page/img/logo.png') }}" alt="TrasuaTet logo"
-                        class="d-none d-md-inline-block"><img src="{{ asset('page/img/logo.png') }}" width="84px"
-                        alt="TrasuaTet logo" class="d-inline-block d-md-none"><span class="sr-only">Obaju - go to
+            <div class="container"><a href="{{ url('/') }}" class="navbar-brand home"><img src="{{ asset('page/img/logo.png') }}" alt="TrasuaTet logo" class="d-none d-md-inline-block"><img src="{{ asset('page/img/logo.png') }}" width="84px" alt="TrasuaTet logo" class="d-inline-block d-md-none"><span class="sr-only">TraSuaTet - go to
                         homepage</span></a>
                 <div class="navbar-buttons">
-                    <button type="button" data-toggle="collapse" data-target="#navigation"
-                        class="btn btn-outline-secondary navbar-toggler"><span class="sr-only">Toggle
+                    <button type="button" data-toggle="collapse" data-target="#navigation" class="btn btn-outline-secondary navbar-toggler"><span class="sr-only">Toggle
                             navigation</span><i class="fa fa-align-justify"></i></button>
-                    <button type="button" data-toggle="collapse" data-target="#search"
-                        class="btn btn-outline-secondary navbar-toggler"><span class="sr-only">Toggle search</span><i
-                            class="fa fa-search"></i></button><a href="basket.html"
-                        class="btn btn-outline-secondary navbar-toggler"><i class="fa fa-shopping-cart"></i></a>
+                    <button type="button" data-toggle="collapse" data-target="#search" class="btn btn-outline-secondary navbar-toggler"><span class="sr-only">Toggle search</span><i class="fa fa-search"></i></button><a href="basket.html" class="btn btn-outline-secondary navbar-toggler"><i class="fa fa-shopping-cart"></i></a>
                 </div>
                 <div id="navigation" class="collapse navbar-collapse">
                     <ul class="navbar-nav mr-auto">
@@ -85,12 +78,23 @@
                     </ul>
                     <div class="navbar-buttons d-flex justify-content-end">
                         <!-- /.nav-collapse-->
-                        <div id="search-not-mobile" class="navbar-collapse collapse"></div><a data-toggle="collapse"
-                            href="#search" class="btn navbar-btn btn-primary d-none d-lg-inline-block"><span
-                                class="sr-only">Toggle search</span><i class="fa fa-search"></i></a>
-                        <div id="basket-overview" class="navbar-collapse collapse d-none d-lg-block"><a
-                                href="basket.html" class="btn btn-primary navbar-btn"><i
-                                    class="fa fa-shopping-cart"></i><span>3 items in cart</span></a></div>
+                        <div id="search-not-mobile" class="navbar-collapse collapse"></div><a data-toggle="collapse" href="#search" class="btn navbar-btn btn-primary d-none d-lg-inline-block"><span class="sr-only">Toggle search</span><i class="fa fa-search"></i></a>
+                        <div id="basket-overview" class="navbar-collapse collapse d-none d-lg-block">
+                            <a href="{{ route('order') }}" class="btn btn-primary navbar-btn"><i class="fa fa-shopping-cart"></i>
+                                <span id="cart-shop">
+                                @if(Route::has('login'))
+                                @auth
+                                @php 
+                                $cart = DB::table('online_orders')->where('id_customer', Auth::user()->id)->count();
+                                @endphp
+                                {{$cart}}
+                                @else
+                                {{0}}
+                                @endauth
+                                @endif
+                                </span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,8 +104,7 @@
                 <form role="search" class="ml-auto" action="{{ url('/'.app('request')->route()->uri().'/search') }}" method="get">
                     @csrf
                     <div class="input-group">
-                        <input type="text" placeholder="Tìm kiếm tại {{app('request')->route()->uri()}}"
-                            class="form-control" name="search">
+                        <input type="text" placeholder="Tìm kiếm tại {{app('request')->route()->uri()}}" class="form-control" name="search">
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
                         </div>
@@ -181,11 +184,7 @@
                     </form>
                     <hr>
                     <h4 class="mb-3">Stay in touch</h4>
-                    <p class="social"><a href="#" class="facebook external"><i class="fa fa-facebook"></i></a><a
-                            href="#" class="twitter external"><i class="fa fa-twitter"></i></a><a href="#"
-                            class="instagram external"><i class="fa fa-instagram"></i></a><a href="#"
-                            class="gplus external"><i class="fa fa-google-plus"></i></a><a href="#"
-                            class="email external"><i class="fa fa-envelope"></i></a></p>
+                    <p class="social"><a href="#" class="facebook external"><i class="fa fa-facebook"></i></a><a href="#" class="twitter external"><i class="fa fa-twitter"></i></a><a href="#" class="instagram external"><i class="fa fa-instagram"></i></a><a href="#" class="gplus external"><i class="fa fa-google-plus"></i></a><a href="#" class="email external"><i class="fa fa-envelope"></i></a></p>
                 </div>
                 <!-- /.col-lg-3-->
             </div>

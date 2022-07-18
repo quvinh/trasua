@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\Auth\LoginController;
 use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\User\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,4 +29,6 @@ Route::get('/san-pham/{id}', [HomeController::class, 'getProduct'])->name('get-p
 Route::middleware('auth')->group(function (){
     Route::get('/home', [HomeController::class, 'needLogin']);
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
+    Route::match(['get', 'post'], [OrderController::class, 'index'])->name('order');
 });
