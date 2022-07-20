@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="{{ asset('page/css/custom.css') }}">
     <!-- Favicon-->
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+    @yield('css')
     <!-- Tweaks for older IEs-->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -74,7 +75,7 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item"><a href="#" class="nav-link">Trang chủ</a></li>
                         <li class="nav-item"><a href="{{ route('category') }}" class="nav-link">Đặt hàng</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">Giỏ hàng</a></li>
+                        <li class="nav-item"><a href="{{ route('order') }}" class="nav-link">Giỏ hàng</a></li>
                     </ul>
                     <div class="navbar-buttons d-flex justify-content-end">
                         <!-- /.nav-collapse-->
@@ -85,7 +86,7 @@
                                 @if(Route::has('login'))
                                 @auth
                                 @php 
-                                $cart = DB::table('online_orders')->where('id_customer', Auth::user()->id)->count();
+                                $cart = DB::table('orders')->select(DB::raw('SUM(amount) as amount'))->where([['created_by', '=', Auth::user()->id], ['status', '=', 0]])->first()->amount;
                                 @endphp
                                 {{$cart}}
                                 @else
@@ -240,6 +241,7 @@
     <script src="{{ asset('page/vendor/owl.carousel/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('page/vendor/owl.carousel2.thumbs/owl.carousel2.thumbs.js') }}"></script>
     <script src="{{ asset('page/js/front.js') }}"></script>
+    @yield('script')
 </body>
 
 </html>

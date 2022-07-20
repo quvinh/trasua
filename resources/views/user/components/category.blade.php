@@ -4,6 +4,12 @@
 Danh mục
 @endsection
 
+@section('css')
+<meta name="csrf-token" content="{{ csrf_token() }}" />
+<!-- SweetAlert2 -->
+<link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+@endsection
+
 @section('all')
 <div id="all">
     <div id="content">
@@ -17,16 +23,16 @@ Danh mục
                             @if(isset($idCategory))
                             @php
                             $products = DB::table('products')->where([['visible', '=', 1], ['image', '<>', ''], ['id_category', '=', $idCategory]])->paginate(12);
-                            $getCategory = DB::table('categories')->where('id_category', $idCategory)->pluck('name');
-                            @endphp
-                            <li class="breadcrumb-item"><a href="{{ route('category') }}">Danh mục</a></li>
-                            <li aria-current="page" class="breadcrumb-item active">{{ $getCategory[0] }}</li>
-                            @else
-                            @php
-                            $products = DB::table('products')->where([['visible', '=', 1], ['image', '<>', '']])->paginate(12);
-                            @endphp
-                            <li aria-current="page" class="breadcrumb-item active">Danh mục</li>
-                            @endif
+                                $getCategory = DB::table('categories')->where('id_category', $idCategory)->pluck('name');
+                                @endphp
+                                <li class="breadcrumb-item"><a href="{{ route('category') }}">Danh mục</a></li>
+                                <li aria-current="page" class="breadcrumb-item active">{{ $getCategory[0] }}</li>
+                                @else
+                                @php
+                                $products = DB::table('products')->where([['visible', '=', 1], ['image', '<>', '']])->paginate(12);
+                                    @endphp
+                                    <li aria-current="page" class="breadcrumb-item active">Danh mục</li>
+                                    @endif
                         </ol>
                     </nav>
                 </div>
@@ -71,7 +77,7 @@ Danh mục
                                     @endphp
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" value="{{ $size->id_size }}" @if($count == 0) {{ 'disabled' }} @endif> {{ $size->name }} ({{ $count }})
+                                            <input type="checkbox" value="{{ $size->id_size }}" @if($count==0) {{ 'disabled' }} @endif> {{ $size->name }} ({{ $count }})
                                         </label>
                                     </div>
                                     @endforeach
@@ -101,7 +107,7 @@ Danh mục
                                             <option>Sales first</option>
                                         </select>
                                     </div> -->
-                                </form> 
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -120,7 +126,7 @@ Danh mục
                                     <p class="price">
                                         <del>@if($product->promotional_price > 0){{ number_format($product->promotional_price, 0, '', ',').' đ' }}@endif</del>{{ number_format($product->price, 0, '', ',').' đ' }}
                                     </p>
-                                    <p class="buttons"><a href="{{ route('get-product', $product->id_product) }}" class="btn btn-outline-secondary">Chi tiết</a><a href="#" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Giỏ hàng</a></p>
+                                    <p class="buttons"><a href="{{ route('get-product', $product->id_product) }}" class="btn btn-outline-secondary">Chi tiết</a><button class="btn btn-primary btn-order" value="{{ $product->id_product }}"><i class="fa fa-shopping-cart"></i>Giỏ hàng</button></p>
                                 </div>
                                 <!-- /.text-->
                             </div>
@@ -134,7 +140,7 @@ Danh mục
                         @endforeach
                         <!-- /.products-->
                     </div>
-                    
+
                     <div class="pages">
                         <p class="loadMore"><a href="#" class="btn btn-primary btn-lg"><i class="fa fa-chevron-down"></i> Load more</a></p>
                         {{ $products->render('user.components.paginator') }}
@@ -146,4 +152,51 @@ Danh mục
     </div>
 </div>
 
+@endsection
+
+@section('script')
+<!-- SweetAlert2 -->
+<script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        $('.btn-order').on('click', function() {
+            let Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+            const id = $(this).val();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                url: '/gio-hang',
+                data: {
+                    call: 'api',
+                    id_product: id,
+                },
+                dataType: 'json',
+                success: function(res) {
+                    // console.log(res);
+                    Toast.fire({
+                        icon: res.status,
+                        title: res.message,
+                    });
+                    $('#cart-shop').text(res.count);
+                },
+                error: function(e) {
+                    console.log(e);
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Error',
+                    });
+                }
+            })
+        })
+    })
+</script>
 @endsection

@@ -30,5 +30,5 @@ Route::middleware('auth')->group(function (){
     Route::get('/home', [HomeController::class, 'needLogin']);
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-    Route::match(['get', 'post'], [OrderController::class, 'index'])->name('order');
+    Route::match(['get', 'post'], '/gio-hang', [OrderController::class, 'index'])->name('order');
 });

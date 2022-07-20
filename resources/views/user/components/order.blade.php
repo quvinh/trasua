@@ -1,7 +1,7 @@
 @extends('user.layouts.master')
 
 @section('title')
-Danh mục
+Giỏ hàng
 @endsection
 
 @section('all')
@@ -13,25 +13,34 @@ Danh mục
                     <!-- breadcrumb-->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li aria-current="page" class="breadcrumb-item active">Shopping cart</li>
+                            <li class="breadcrumb-item"><a href="{{ url('/') }}">Trang chủ</a></li>
+                            <li aria-current="page" class="breadcrumb-item active">Giỏ hàng</li>
                         </ol>
                     </nav>
                 </div>
                 <div id="basket" class="col-lg-9">
                     <div class="box">
                         <form method="post" action="checkout1.html">
-                            <h1>Shopping cart</h1>
-                            <p class="text-muted">You currently have 3 item(s) in your cart.</p>
+                            <h1>Giỏ hàng</h1>
+                            @php 
+                            $count = DB::table('orders')->select(DB::raw('SUM(amount) as amount'))->where([['created_by', '=', Auth::user()->id], ['status', '=', 0]])->first()->amount;
+                            $order = DB::table('online_orders')
+                                ->join('orders', 'online_orders.id_order', '=', 'orders.id_order')
+                                ->join('products', 'online_orders.id_product', '=', 'products.id_product')
+                                ->select('products.image as image', 'orders.amount as amount', 'products.price as price')
+                                ->where('orders.')
+                                ->get();
+                            @endphp
+                            <p class="text-muted">{{ $count }} sản phẩm trong giỏ hàng.</p>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th colspan="2">Product</th>
-                                            <th>Quantity</th>
-                                            <th>Unit price</th>
-                                            <th>Discount</th>
-                                            <th colspan="2">Total</th>
+                                            <th colspan="2">Sản phẩm</th>
+                                            <th>Số lượng</th>
+                                            <th>Đơn giá</th>
+                                            <th>Giảm giá</th>
+                                            <th colspan="2">Thành tiền</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -68,7 +77,7 @@ Danh mục
                             </div>
                             <!-- /.table-responsive-->
                             <div class="box-footer d-flex justify-content-between flex-column flex-lg-row">
-                                <div class="left"><a href="{{ route('danh-muc') }}" class="btn btn-outline-secondary"><i class="fa fa-chevron-left"></i> Continue shopping</a></div>
+                                <div class="left"><a href="{{ route('category') }}" class="btn btn-outline-secondary"><i class="fa fa-chevron-left"></i> Continue shopping</a></div>
                                 <div class="right">
                                     <button class="btn btn-outline-secondary"><i class="fa fa-refresh"></i> Update cart</button>
                                     <button type="submit" class="btn btn-primary">Proceed to checkout <i class="fa fa-chevron-right"></i></button>
