@@ -20,15 +20,17 @@ Giỏ hàng
                 </div>
                 <div id="basket" class="col-lg-9">
                     <div class="box">
-                        <form method="post" action="checkout1.html">
+                        <form method="post" action="{{ route('progress-order') }}">
+                            @csrf
                             <h1>Giỏ hàng</h1>
                             @php 
+                            $totalPrice = 0;
                             $count = DB::table('orders')->select(DB::raw('SUM(amount) as amount'))->where([['created_by', '=', Auth::user()->id], ['status', '=', 0]])->first()->amount;
-                            $order = DB::table('online_orders')
+                            $orders = DB::table('online_orders')
                                 ->join('orders', 'online_orders.id_order', '=', 'orders.id_order')
                                 ->join('products', 'online_orders.id_product', '=', 'products.id_product')
-                                ->select('products.image as image', 'orders.amount as amount', 'products.price as price')
-                                ->where('orders.')
+                                ->select('products.id_product as id_product', 'products.image as image', 'products.name as name', 'orders.amount as amount', 'orders.id_order as id_order', 'products.price as price')
+                                ->where([['orders.created_by', '=', Auth::user()->id], ['orders.status', '=', 0]])
                                 ->get();
                             @endphp
                             <p class="text-muted">{{ $count }} sản phẩm trong giỏ hàng.</p>
@@ -44,43 +46,43 @@ Giỏ hàng
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach($orders as $order)
+                                        @php 
+                                        $total = floatval($order->amount) * floatval($order->price);
+                                        $totalPrice += floatval($total);
+                                        @endphp
                                         <tr>
-                                            <td><a href="#"><img src="img/detailsquare.jpg" alt="White Blouse Armani"></a></td>
-                                            <td><a href="#">White Blouse Armani</a></td>
+                                            <td><a href="#"><img src="{{ asset('images/product/'.$order->image) }}" alt="IMAGE"></a></td>
+                                            <td><a href="#">{{ $order->name }}</a></td>
                                             <td>
-                                                <input type="number" value="2" class="form-control">
+                                                <input type="number" name="amount[]" value="{{ $order->amount }}" class="form-control">
+                                                <input type="number" name="id_order[]" value="{{ $order->id_order }}" hidden>
+                                                <input type="number" name="price[]" value="{{ $order->price }}" hidden>
                                             </td>
-                                            <td>$123.00</td>
-                                            <td>$0.00</td>
-                                            <td>$246.00</td>
-                                            <td><a href="#"><i class="fa fa-trash-o"></i></a></td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="#"><img src="img/basketsquare.jpg" alt="Black Blouse Armani"></a></td>
-                                            <td><a href="#">Black Blouse Armani</a></td>
+                                            <td>{{ number_format($order->price, 0, '', ',') }}</td>
+                                            <td>0.00</td>
+                                            <td>{{ number_format($total, 0, '', ',') }}</td>
                                             <td>
-                                                <input type="number" value="1" class="form-control">
+                                                <a href="{{ route('remove-order', $order->id_product) }}"><i class="fa fa-trash-o"></i></a>
                                             </td>
-                                            <td>$200.00</td>
-                                            <td>$0.00</td>
-                                            <td>$200.00</td>
-                                            <td><a href="#"><i class="fa fa-trash-o"></i></a></td>
                                         </tr>
+                                        @endforeach
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <th colspan="5">Total</th>
-                                            <th colspan="2">$446.00</th>
+                                            <th colspan="5">Tổng tiền</th>
+                                            <th colspan="2">{{ number_format($totalPrice, 0, '', ',').' đ' }}</th>
                                         </tr>
                                     </tfoot>
                                 </table>
                             </div>
                             <!-- /.table-responsive-->
                             <div class="box-footer d-flex justify-content-between flex-column flex-lg-row">
-                                <div class="left"><a href="{{ route('category') }}" class="btn btn-outline-secondary"><i class="fa fa-chevron-left"></i> Continue shopping</a></div>
+                                <div class="left"><a href="{{ route('category') }}" class="btn btn-outline-secondary"><i class="fa fa-chevron-left"></i> Tiếp tục Shopping</a></div>
                                 <div class="right">
-                                    <button class="btn btn-outline-secondary"><i class="fa fa-refresh"></i> Update cart</button>
-                                    <button type="submit" class="btn btn-primary">Proceed to checkout <i class="fa fa-chevron-right"></i></button>
+                                    <button type="submit" class="btn btn-outline-secondary" name="action" value="update-order"><i class="fa fa-refresh"></i> Cập nhật giỏ hàng</button>
+                                    <!-- <button type="submit" class="btn btn-primary" name="action" value="checkout">Thanh toán <i class="fa fa-chevron-right"></i></button> -->
+                                    <a href="{{ route('checkout-order') }}" type="button" class="btn btn-primary">Thanh toán <i class="fa fa-chevron-right"></i></a>
                                 </div>
                             </div>
                         </form>
@@ -89,81 +91,56 @@ Giỏ hàng
                     <div class="row same-height-row">
                         <div class="col-lg-3 col-md-6">
                             <div class="box same-height">
-                                <h3>You may also like these products</h3>
+                                <h3>Những sản phẩm bạn có thể thích</h3>
                             </div>
                         </div>
+                        @php 
+                        $products = DB::table('products')->orderByDesc('id_product')->take(3)->get();
+                        @endphp
+                        @foreach($products as $product)
                         <div class="col-md-3 col-sm-6">
                             <div class="product same-height">
                                 <div class="flip-container">
                                     <div class="flipper">
-                                        <div class="front"><a href="detail.html"><img src="img/product2.jpg" alt="" class="img-fluid"></a></div>
-                                        <div class="back"><a href="detail.html"><img src="img/product2_2.jpg" alt="" class="img-fluid"></a></div>
+                                        <div class="front"><a href="{{ route('get-product', $product->id_product) }}"><img src="{{ asset('images/product/'.$product->image) }}" alt="" class="img-fluid"></a></div>
+                                        <div class="back"><a href="{{ route('get-product', $product->id_product) }}"><img src="{{ asset('images/product/'.$product->image) }}" alt="" class="img-fluid"></a></div>
                                     </div>
-                                </div><a href="detail.html" class="invisible"><img src="img/product2.jpg" alt="" class="img-fluid"></a>
+                                </div><a href="{{ route('get-product', $product->id_product) }}" class="invisible"><img src="{{ asset('images/product/'.$product->image) }}" alt="" class="img-fluid"></a>
                                 <div class="text">
-                                    <h3>Fur coat</h3>
-                                    <p class="price">$143</p>
+                                    <h3>{{ $product->name }}</h3>
+                                    <p class="price">{{ number_format($product->price, 0, '', ',').' đ' }}</p>
                                 </div>
                             </div>
                             <!-- /.product-->
                         </div>
-                        <div class="col-md-3 col-sm-6">
-                            <div class="product same-height">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front"><a href="detail.html"><img src="img/product1.jpg" alt="" class="img-fluid"></a></div>
-                                        <div class="back"><a href="detail.html"><img src="img/product1_2.jpg" alt="" class="img-fluid"></a></div>
-                                    </div>
-                                </div><a href="detail.html" class="invisible"><img src="img/product1.jpg" alt="" class="img-fluid"></a>
-                                <div class="text">
-                                    <h3>Fur coat</h3>
-                                    <p class="price">$143</p>
-                                </div>
-                            </div>
-                            <!-- /.product-->
-                        </div>
-                        <div class="col-md-3 col-sm-6">
-                            <div class="product same-height">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front"><a href="detail.html"><img src="img/product3.jpg" alt="" class="img-fluid"></a></div>
-                                        <div class="back"><a href="detail.html"><img src="img/product3_2.jpg" alt="" class="img-fluid"></a></div>
-                                    </div>
-                                </div><a href="detail.html" class="invisible"><img src="img/product3.jpg" alt="" class="img-fluid"></a>
-                                <div class="text">
-                                    <h3>Fur coat</h3>
-                                    <p class="price">$143</p>
-                                </div>
-                            </div>
-                            <!-- /.product-->
-                        </div>
+                        @endforeach
                     </div>
                 </div>
                 <!-- /.col-lg-9-->
                 <div class="col-lg-3">
                     <div id="order-summary" class="box">
                         <div class="box-header">
-                            <h3 class="mb-0">Order summary</h3>
+                            <h3 class="mb-0">Đơn đặt hàng</h3>
                         </div>
-                        <p class="text-muted">Shipping and additional costs are calculated based on the values you have entered.</p>
+                        <p class="text-muted">Tiền giao hàng và sản phẩm dựa trên giá trị bạn nhập vào giỏ hàng.</p>
                         <div class="table-responsive">
                             <table class="table">
                                 <tbody>
                                     <tr>
-                                        <td>Order subtotal</td>
-                                        <th>$446.00</th>
+                                        <td>Thành tiền</td>
+                                        <th>{{ number_format($totalPrice, 0, '', ',').' đ' }}</th>
                                     </tr>
                                     <tr>
-                                        <td>Shipping and handling</td>
-                                        <th>$10.00</th>
+                                        <td>Giao hàng</td>
+                                        <th>10,000 đ</th>
                                     </tr>
                                     <tr>
-                                        <td>Tax</td>
-                                        <th>$0.00</th>
+                                        <td>VAT</td>
+                                        <th>0.00</th>
                                     </tr>
                                     <tr class="total">
-                                        <td>Total</td>
-                                        <th>$456.00</th>
+                                        <td>Tổng</td>
+                                        <th style="color:brown;">{{ number_format(floatval($totalPrice + 10000), 0, '', ',').'đ' }}</th>
                                     </tr>
                                 </tbody>
                             </table>
@@ -171,12 +148,12 @@ Giỏ hàng
                     </div>
                     <div class="box">
                         <div class="box-header">
-                            <h4 class="mb-0">Coupon code</h4>
+                            <h4 class="mb-0">Voucher code</h4>
                         </div>
-                        <p class="text-muted">If you have a coupon code, please enter it in the box below.</p>
+                        <p class="text-muted">Nếu bạn có mã giảm giá, vui lòng điền vào form bên dưới.</p>
                         <form>
                             <div class="input-group">
-                                <input type="text" class="form-control"><span class="input-group-append">
+                                <input type="text" class="form-control" placeholder="Làm gì có..."><span class="input-group-append">
                                     <button type="button" class="btn btn-primary"><i class="fa fa-gift"></i></button></span>
                             </div>
                             <!-- /input-group-->
@@ -189,4 +166,7 @@ Giỏ hàng
     </div>
 </div>
 
+@endsection
+
+@section('script')
 @endsection

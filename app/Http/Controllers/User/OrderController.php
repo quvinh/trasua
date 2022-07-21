@@ -84,4 +84,63 @@ class OrderController extends Controller
             return view('user.components.order');
         }
     }
+
+    public function removeOrder($id)
+    {
+        DB::table('online_orders')->where([['id_order', '=', $id], ['id_customer', '=', Auth::user()->id]])->delete();
+        DB::table('orders')->where([['id_order', '=', $id], ['created_by', '=', Auth::user()->id]])->delete();
+        return redirect()->route('order');
+    }
+
+    public function progressOrder(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'amount' => 'required',
+            'id_order' => 'required',
+            'price' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->withErrors($validator);
+        }
+        $id_order = $request->id_order;
+        $amount = $request->amount;
+        $price = $request->price;
+        if($request->input('action') == 'update-order') {
+            for($i=0; $i<count($id_order); $i++) {
+                DB::table('orders')->where('id_order', '=', $id_order[$i])->update([
+                    'amount' => $amount[$i]
+                ]);
+            }
+            return redirect()->route('order');
+        } else if ($request->input('action') == 'checkout') {
+            // $id_bill = DB::table('bills')->max('id_bill');
+            // $total = 10000; // Ship
+            // $list = [];
+            // for($i=0; $i<count($id_order); $i++) {
+            //     $total += floatval($amount[$i]) * floatval($price[$i]);
+            //     array_push($list, [
+            //         'id_order' => intval($id_order[$i]),
+            //         'id_bill' => intval($id_bill + 1)
+            //     ]);
+            // }
+            // DB::table('bills')->insert([
+            //     [
+            //         'id_bill' => intval($id_bill + 1),
+            //         'payment' => floatval($total),
+            //         'discount' => 0,
+            //         'created_by' => Auth::user()->id,
+            //         'description' => '',
+            //         'status' => 0,
+            //     ]
+            // ]);
+            // DB::table('order_bills')->insert($list);
+            // return redirect()->route('order');
+        }
+    }
+
+    public function checkoutOrder()
+    {
+        return view('user.components.checkout_step1');
+    }
 }

@@ -31,4 +31,7 @@ Route::middleware('auth')->group(function (){
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::match(['get', 'post'], '/gio-hang', [OrderController::class, 'index'])->name('order');
+    Route::get('/gio-hang/xoa/{id}', [OrderController::class, 'removeOrder'])->name('remove-order');
+    Route::post('/gio-hang/xu-ly', [OrderController::class, 'progressOrder'])->name('progress-order');
+    Route::get('/gio-hang/thanh-toan', [OrderController::class, 'checkoutOrder'])->name('checkout-order');
 });
