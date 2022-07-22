@@ -69,6 +69,7 @@ class OrderController extends Controller
                     'amount' => 1,
                     'description' => '',
                     'status' => 0,
+                    'created_at' => date('Y-m-d H:i:s')
                 ]
             ]);
         }
@@ -114,33 +115,74 @@ class OrderController extends Controller
             }
             return redirect()->route('order');
         } else if ($request->input('action') == 'checkout') {
-            // $id_bill = DB::table('bills')->max('id_bill');
-            // $total = 10000; // Ship
-            // $list = [];
-            // for($i=0; $i<count($id_order); $i++) {
-            //     $total += floatval($amount[$i]) * floatval($price[$i]);
-            //     array_push($list, [
-            //         'id_order' => intval($id_order[$i]),
-            //         'id_bill' => intval($id_bill + 1)
-            //     ]);
-            // }
-            // DB::table('bills')->insert([
-            //     [
-            //         'id_bill' => intval($id_bill + 1),
-            //         'payment' => floatval($total),
-            //         'discount' => 0,
-            //         'created_by' => Auth::user()->id,
-            //         'description' => '',
-            //         'status' => 0,
-            //     ]
-            // ]);
-            // DB::table('order_bills')->insert($list);
-            // return redirect()->route('order');
+            $id_bill = DB::table('bills')->max('id_bill');
+            $total = 10000; // Ship
+            $list = [];
+            for($i=0; $i<count($id_order); $i++) {
+                $total += floatval($amount[$i]) * floatval($price[$i]);
+                DB::table('orders')->where('id_order', $id_order[$i])->update(['status' => 1]);
+                array_push($list, [
+                    'id_order' => intval($id_order[$i]),
+                    'id_bill' => intval($id_bill + 1)
+                ]);
+            }
+            DB::table('bills')->insert([
+                [
+                    'id_bill' => intval($id_bill + 1),
+                    'payment' => floatval($total),
+                    'discount' => 0,
+                    'created_by' => 0,
+                    'description' => '',
+                    'status' => 0,
+                    'created_at' => date('Y-m-d H:i:s')
+                ]
+            ]);
+            DB::table('order_bills')->insert($list);
+            return redirect()->route('order')->with(['success' => 'Đã lưu đơn đặt hàng. Cảm ơn bạn đã dùng sản phẩm <3']);
         }
     }
 
     public function checkoutOrder()
     {
         return view('user.components.checkout_step1');
+    }
+
+    public function checkoutAddress(Request $request) 
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'gender' => 'required',
+            'address' => 'required'
+        ]);
+
+        if($validator->fails()) {
+            return redirect()->withErrors($validator);
+        }
+        DB::table('users')->where('id', Auth::user()->id)->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => str_replace(' ', '', $request->phone),
+            'gender' => intval($request->gender),
+            'address' => $request->address,
+        ]);
+
+        return redirect()->route('checkout-delivery');
+    }
+
+    public function checkoutDelivery()
+    {
+        return view('user.components.checkout_step2');
+    }
+
+    public function checkoutPayment()
+    {
+        return view('user.components.checkout_step3');
+    }
+
+    public function checkoutReview()
+    {
+        return view('user.components.checkout_step4');
     }
 }

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\Auth\LoginController;
+use App\Http\Controllers\User\CustomerController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\OrderController;
 
@@ -34,4 +35,12 @@ Route::middleware('auth')->group(function (){
     Route::get('/gio-hang/xoa/{id}', [OrderController::class, 'removeOrder'])->name('remove-order');
     Route::post('/gio-hang/xu-ly', [OrderController::class, 'progressOrder'])->name('progress-order');
     Route::get('/gio-hang/thanh-toan', [OrderController::class, 'checkoutOrder'])->name('checkout-order');
+    Route::put('/gio-hang/thanh-toan/dia-chi', [OrderController::class, 'checkoutAddress'])->name('checkout-address');
+    Route::get('/gio-hang/thanh-toan/giao-hang', [OrderController::class, 'checkoutDelivery'])->name('checkout-delivery');
+    Route::get('/gio-hang/thanh-toan/tien-hang', [OrderController::class, 'checkoutPayment'])->name('checkout-payment');
+    Route::get('/gio-hang/thanh-toan/tong-quan', [OrderController::class, 'checkoutReview'])->name('checkout-review');
+
+    Route::get('/khach-hang', [CustomerController::class, 'ordersHistory'])->name('orders-history');
+    Route::get('/khach-hang/{id}', [CustomerController::class, 'orderHistory'])->name('order-history');
+    Route::get('/tai-khoan', [CustomerController::class, 'customerAccount'])->name('customer-account');
 });

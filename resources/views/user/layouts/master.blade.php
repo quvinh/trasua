@@ -47,7 +47,7 @@
                         <ul class="menu list-inline mb-0">
                             @if(Route::has('login'))
                             @auth
-                            <li class="list-inline-item"><a><i class="fa fa-user"></i> {{ Auth::user()->username }}</a>
+                            <li class="list-inline-item"><a href="{{ route('orders-history') }}"><i class="fa fa-user"></i> {{ Auth::user()->username }}</a>
                             </li>
                             <li class="list-inline-item"><a href="{{ route('logout') }}">Đăng xuất</a></li>
                             @else
@@ -73,7 +73,7 @@
                 </div>
                 <div id="navigation" class="collapse navbar-collapse">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item"><a href="#" class="nav-link">Trang chủ</a></li>
+                        <li class="nav-item"><a href="{{ url('/') }}" class="nav-link">Trang chủ</a></li>
                         <li class="nav-item"><a href="{{ route('category') }}" class="nav-link">Đặt hàng</a></li>
                         <li class="nav-item"><a href="{{ route('order') }}" class="nav-link">Giỏ hàng</a></li>
                     </ul>

@@ -18,6 +18,15 @@ Giỏ hàng
                         </ol>
                     </nav>
                 </div>
+                @if(session()->has('success'))
+                <div class="col-lg-12">
+                    <nav aria-label="breadcrumb">
+                        <div class="breadcrumb">
+                            <span style="color: ff0094;">{{ session()->get('success') }}</span>
+                        </div>
+                    </nav>
+                </div>
+                @endif
                 <div id="basket" class="col-lg-9">
                     <div class="box">
                         <form method="post" action="{{ route('progress-order') }}">
@@ -33,8 +42,9 @@ Giỏ hàng
                                 ->where([['orders.created_by', '=', Auth::user()->id], ['orders.status', '=', 0]])
                                 ->get();
                             @endphp
-                            <p class="text-muted">{{ $count }} sản phẩm trong giỏ hàng.</p>
+                            <p class="text-muted">@if($count>0) {{ $count }} @else {{ 0 }} @endif sản phẩm trong giỏ hàng.</p>
                             <div class="table-responsive">
+                                @if($count>0)
                                 <table class="table">
                                     <thead>
                                         <tr>
@@ -63,7 +73,7 @@ Giỏ hàng
                                             <td>0.00</td>
                                             <td>{{ number_format($total, 0, '', ',') }}</td>
                                             <td>
-                                                <a href="{{ route('remove-order', $order->id_product) }}"><i class="fa fa-trash-o"></i></a>
+                                                <a href="{{ route('remove-order', $order->id_order) }}"><i class="fa fa-trash-o"></i></a>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -75,15 +85,20 @@ Giỏ hàng
                                         </tr>
                                     </tfoot>
                                 </table>
+                                @else
+                                <div style="text-align: center;"><img src="{{ asset('images/system/empty-cart.png') }}" alt="IMAGE"></div>
+                                @endif
                             </div>
                             <!-- /.table-responsive-->
                             <div class="box-footer d-flex justify-content-between flex-column flex-lg-row">
                                 <div class="left"><a href="{{ route('category') }}" class="btn btn-outline-secondary"><i class="fa fa-chevron-left"></i> Tiếp tục Shopping</a></div>
+                                @if($totalPrice>0)
                                 <div class="right">
                                     <button type="submit" class="btn btn-outline-secondary" name="action" value="update-order"><i class="fa fa-refresh"></i> Cập nhật giỏ hàng</button>
                                     <!-- <button type="submit" class="btn btn-primary" name="action" value="checkout">Thanh toán <i class="fa fa-chevron-right"></i></button> -->
                                     <a href="{{ route('checkout-order') }}" type="button" class="btn btn-primary">Thanh toán <i class="fa fa-chevron-right"></i></a>
                                 </div>
+                                @endif
                             </div>
                         </form>
                     </div>
@@ -125,6 +140,7 @@ Giỏ hàng
                         <p class="text-muted">Tiền giao hàng và sản phẩm dựa trên giá trị bạn nhập vào giỏ hàng.</p>
                         <div class="table-responsive">
                             <table class="table">
+                                @if($totalPrice > 0)
                                 <tbody>
                                     <tr>
                                         <td>Thành tiền</td>
@@ -143,6 +159,14 @@ Giỏ hàng
                                         <th style="color:brown;">{{ number_format(floatval($totalPrice + 10000), 0, '', ',').'đ' }}</th>
                                     </tr>
                                 </tbody>
+                                @else
+                                <tbody>
+                                    <tr>Không có sản phẩm nào trong giỏ hàng.</tr>
+                                </tbody>
+                                <div style="text-align: center;">
+                                    <img src="{{ asset('images/system/bobagif.gif') }}" alt="GIF" width="100%">
+                                </div>
+                                @endif
                             </table>
                         </div>
                     </div>
