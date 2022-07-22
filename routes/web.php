@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\User\Auth\AccountController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\Auth\LoginController;
 use App\Http\Controllers\User\CustomerController;
@@ -21,6 +22,7 @@ Route::match(['get', 'post'], '/login', [LoginController::class, 'login'])->name
 Route::match(['get', 'post'], '/register', [LoginController::class, 'register'])->name('register');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::post('/dang-ky', [LoginController::class, 'register'])->name('register');
 Route::get('/danh-muc', [HomeController::class, 'category'])->name('category');
 Route::get('/danh-muc/search', [HomeController::class, 'searchCategory']);
 Route::get('/danh-muc/{id}', [HomeController::class, 'getCategory'])->name('get-category');
@@ -43,4 +45,6 @@ Route::middleware('auth')->group(function (){
     Route::get('/khach-hang', [CustomerController::class, 'ordersHistory'])->name('orders-history');
     Route::get('/khach-hang/{id}', [CustomerController::class, 'orderHistory'])->name('order-history');
     Route::get('/tai-khoan', [CustomerController::class, 'customerAccount'])->name('customer-account');
+
+    Route::put('/mat-khau', [AccountController::class, 'changePassword'])->name('change-password');
 });
