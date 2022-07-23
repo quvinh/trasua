@@ -20,9 +20,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $admin = Admin::create([
-            'name' => 'Administrator',
+            'name' => 'Ngô Quang Vinh',
             'username' => 'admin',
-            'email' => 'admin@gmail.com',
+            'email' => 'vinhhp2620@gmail.com',
             'password' => bcrypt('admin123'),
             'phone' => '0962334135',
             'gender' => 1,
@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Username',
             'username' => 'user',
             'email' => 'user@gmail.com',
-            'password' => bcrypt('admin123'),
+            'password' => bcrypt('user123'),
             'phone' => '0962334135',
             'gender' => 1,
             'address' => 'Chiến Thắng, An Lão, Hải Phòng',

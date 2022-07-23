@@ -4,7 +4,7 @@
     <a href="#" class="brand-link">
         <img src="{{asset('dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
             style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+        <span class="brand-text font-weight-light">AdminTET</span>
     </a>
 
     <!-- Sidebar -->
@@ -12,7 +12,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{asset('dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
+                <img src="{{asset('images/system/user1.png')}}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
                 <a href="#" class="d-block">{{ Auth::user()->name }}</a>
@@ -58,6 +58,7 @@
                         </p>
                     </a>
                 </li>
+                @can('pro.view')
                 <li class="nav-item {{ $product?'menu-open':'' }}">
                     <a href="#" class="nav-link {{ $product?'active':'' }} ">
                         <i class="nav-icon fas fa-copy"></i>
@@ -81,6 +82,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcan
+                @can('for.view')
                 <li class="nav-item {{ $formula?'menu-open':'' }}">
                     <a href="#" class="nav-link {{ $formula?'active':'' }}">
                         <i class="nav-icon fas fa-chart-pie"></i>
@@ -104,6 +107,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcan
+                @can('bil.view')
                 <li class="nav-item {{ $bill?'menu-open':'' }}">
                     <a href="#" class="nav-link {{ $bill?'active':'' }}">
                         <i class="nav-icon fas fa-tree"></i>
@@ -133,6 +138,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcan
+                @can('tab.view')
                 <li class="nav-item {{ $table?'menu-open':'' }}">
                     <a href="#" class="nav-link {{ $table?'active':'' }}">
                         <i class="nav-icon fas fa-edit"></i>
@@ -150,6 +157,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcan
+                @can('sto.view')
                 <li class="nav-item {{ $store?'menu-open':'' }}">
                     <a href="#" class="nav-link {{ $store?'active':'' }}">
                         <i class="nav-icon fas fa-table"></i>
@@ -179,6 +188,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcan
+                @can('sho.view')
                 <li class="nav-item {{ $shop?'menu-open':'' }}">
                     <a href="#" class="nav-link {{ $shop?'active':'' }}">
                         <i class="nav-icon far fa-envelope"></i>
@@ -208,12 +219,15 @@
                         </li>
                     </ul>
                 </li>
+                @endcan
+                @can('cus.view')
                 <li class="nav-item">
                     <a href="{{ route('admin.customer') }}" class="nav-link {{ $url=='customer'?'active':'' }}">
                         <i class="far fa-user nav-icon"></i>
                         <p>Khách hàng</p>
                     </a>
                 </li>
+                @endcan
                 <li class="nav-item {{ $cat?'menu-open':'' }}">
                     <a href="#" class="nav-link {{ $cat?'active':'' }}">
                         <i class="nav-icon fas fa-book"></i>
@@ -237,6 +251,7 @@
                         </li>
                     </ul>
                 </li>
+                @can('acc.view')
                 <li class="nav-item {{ $sys?'menu-open':'' }}">
                     <a href="#" class="nav-link {{ $sys?'active':'' }}">
                         <i class="nav-icon fas fa-book"></i>
@@ -266,6 +281,7 @@
                         </li>
                     </ul>
                 </li>
+                @endcan
                 <li class="nav-header"></li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">

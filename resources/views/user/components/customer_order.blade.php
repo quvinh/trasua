@@ -55,7 +55,7 @@ if($bill->status == 1) {
                     </tr>
                     <tr>
                         <th colspan="5" class="text-right">Tổng tiền</th>
-                        <th>{{ number_format($bill->payment, 0, '', ',') }}</th>
+                        <th>{{ number_format($bill->payment, 0, '', ',').' đ' }}</th>
                     </tr>
                 </tfoot>
             </table>

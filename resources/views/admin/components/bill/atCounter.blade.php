@@ -16,7 +16,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Trang chủ</a></li>
                         <li class="breadcrumb-item active">Đặt tại quầy</li>
                     </ol>
                 </div>

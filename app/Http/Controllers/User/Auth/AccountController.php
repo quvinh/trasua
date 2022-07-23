@@ -22,18 +22,38 @@ class AccountController extends Controller
             return redirect()->back()->withErrors($validator);
         }
         
-        // $user = DB::table('users')->where('id', Auth::user()->id)->first();
-        $user = find(Auth::user()->id);
+        $user = DB::table('users')->where('id', Auth::user()->id)->first();
+        // dd($request->all(), $user, Hash::check($request->password_old, $user->password));
         if(Hash::check($request->password_old, $user->password)) {
-            $user->fill([
+            DB::table('users')->where('id', Auth::user()->id)->update([
                 'password' => bcrypt($request->password)
-            ])->save();
-
-            $request->sesstion()->flash('success', 'Mật khẩu đã thay đổi');
-            return redirect()->route('customer-account');
+            ]);
+            return redirect()->back()->with(['success' => 'Mật khẩu đã thay đổi']);
         } else {
-            $request->sesstion()->flash('error', 'Mật khẩu không đúng');
-            return redirect()->route('customer-account');
+            return redirect()->back()->with(['error' => 'Mật khẩu không đúng']);
         }
     } 
+
+    public function changeProfile(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'gender' => 'required',
+            'address' => 'required',
+        ]);
+
+        if($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
+        DB::table('users')->where('id', Auth::user()->id)->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'gender' => $request->gender,
+            'address' => $request->address
+        ]);
+        return redirect()->back()->with(['success' => 'Thông tin đã được cập nhật']);
+    }
 }

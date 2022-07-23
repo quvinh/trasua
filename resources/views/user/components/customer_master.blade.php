@@ -48,3 +48,12 @@ Thông tin
     </div>
 </div>
 @endsection
+
+@section('script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.7/jquery.inputmask.min.js" integrity="sha512-jTgBq4+dMYh73dquskmUFEgMY5mptcbqSw2rmhOZZSJjZbD2wMt0H5nhqWtleVkyBEjmzid5nyERPSNBafG4GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $(document).ready(function() {
+        $('#phone').inputmask({'mask' : '999 999 9999'});
+    })
+</script>
+@endsection

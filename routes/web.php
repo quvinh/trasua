@@ -47,4 +47,5 @@ Route::middleware('auth')->group(function (){
     Route::get('/tai-khoan', [CustomerController::class, 'customerAccount'])->name('customer-account');
 
     Route::put('/mat-khau', [AccountController::class, 'changePassword'])->name('change-password');
+    Route::put('/thong-tin', [AccountController::class, 'changeProfile'])->name('change-profile');
 });

@@ -108,4 +108,44 @@ class BillController extends Controller
         }
         return redirect()->back()->with('success', 'Đã thanh toán đơn');
     }
+
+    public function deliveryStatus($id)
+    {
+        $bill = DB::table('bills')->where('id_bill', $id);
+        $bill->update([
+            'status' => 1
+        ]);
+        $b = $bill->first();
+        return redirect()->back()->with('success', 'Xác nhận và Giao hàng cho đơn số #' . $b->id_bill);
+    }
+
+    public function completeStatus($id)
+    {
+        $bill = DB::table('bills')->where('id_bill', $id);
+        $bill->update([
+            'status' => 2
+        ]);
+        $b = $bill->first();
+        return redirect()->back()->with('success', 'Hoàn thành đơn hàng số #' . $b->id_bill);
+    }
+
+    public function cancleStatus($id)
+    {
+        $bill = DB::table('bills')->where('id_bill', $id);
+        $bill->update([
+            'status' => 3
+        ]);
+        $b = $bill->first();
+        return redirect()->back()->with('success', 'Hủy đơn số #' . $b->id_bill);
+    }
+
+    public function undoStatus($id)
+    {
+        $bill = DB::table('bills')->where('id_bill', $id);
+        $bill->update([
+            'status' => 0
+        ]);
+        $b = $bill->first();
+        return redirect()->back()->with('success', 'Hoàn thành khôi phục cho đơn #' . $b->id_bill . ' về trạng thái "Chờ xử lý".');
+    }
 }
