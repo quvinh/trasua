@@ -22,7 +22,7 @@ Route::match(['get', 'post'], '/login', [LoginController::class, 'login'])->name
 Route::match(['get', 'post'], '/register', [LoginController::class, 'register'])->name('register');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::post('/dang-ky', [LoginController::class, 'register'])->name('register');
+Route::match(['get', 'post'], '/dang-ky', [LoginController::class, 'register'])->name('register');
 Route::get('/danh-muc', [HomeController::class, 'category'])->name('category');
 Route::get('/danh-muc/search', [HomeController::class, 'searchCategory']);
 Route::get('/danh-muc/{id}', [HomeController::class, 'getCategory'])->name('get-category');

@@ -97,6 +97,16 @@ Route::middleware('auth:admin')->group(function () {
     Route::post('/size', [CategoryController::class, 'addSize'])->name('admin.add-size');
     Route::get('/unit', [CategoryController::class, 'unit'])->name('admin.unit');
     Route::post('/unit', [CategoryController::class, 'addUnit'])->name('admin.add-unit');
+    Route::group(['middleware' => ['can:sho.edit']], function() {
+        Route::match(['get', 'post'], '/category/edit/{id}', [CategoryController::class, 'editCategory'])->name('admin.edit-category');
+        Route::match(['get', 'post'], '/size/edit/{id}', [CategoryController::class, 'editSize'])->name('admin.edit-size');
+        Route::match(['get', 'post'], '/unit/edit/{id}', [CategoryController::class, 'editUnit'])->name('admin.edit-unit');
+    });
+    Route::group(['middleware' => ['can:sho.delete']], function() {
+        Route::get('/category/{id}', [CategoryController::class, 'delCategory'])->name('admin.del-category');
+        Route::get('/size/{id}', [CategoryController::class, 'delSize'])->name('admin.del-size');
+        Route::get('/unit/{id}', [CategoryController::class, 'delUnit'])->name('admin.del-unit');
+    });
 
     // System
     Route::group(['middleware' => ['can:acc.view']], function () {

@@ -90,7 +90,7 @@
                                             <td>{{ str_pad($item->id_unit, 5, '0', STR_PAD_LEFT) }}</td>
                                             <td><b style="color:rgb(6, 6, 119);">{{ $item->name }}</b></td>
                                             <td>
-                                                <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i>
+                                                <a href="{{ route('admin.del-unit', $item->id_unit) }}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i>
                                                     Xoá</a>
                                             </td>
                                         </tr>

@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Size;
 use App\Models\Unit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
@@ -68,5 +69,85 @@ class CategoryController extends Controller
         Unit::create($request->all());
 
         return redirect()->back()->with('success', 'Thêm đơn vị tính thành công');
+    }
+
+    public function delCategory($id)
+    {
+        DB::table('categories')->where('id_category', $id)->delete();
+        return redirect()->back()->with('success', 'Xoá thành công');
+    }
+
+    public function delSize($id)
+    {
+        DB::table('sizes')->where('id_size', $id)->delete();
+        return redirect()->back()->with('success', 'Xoá thành công');
+    }
+
+    public function delUnit($id)
+    {
+        DB::table('units')->where('id_unit', $id)->delete();
+        return redirect()->back()->with('success', 'Xoá thành công');
+    }
+
+    public function editCategory(Request $request, $id)
+    {
+        if($request->getMethod() == 'GET') {
+            return view('admin.components.category.edit_category');
+        }
+        
+        $validator = Validator::make($request->all(), [
+            'name' => 'required'
+        ]);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator);
+        }
+
+        DB::table('categories')->where('id_category', $id)->update([
+            'name' => $request->name
+        ]);
+        return redirect()-back()->with('success', 'Đã cập nhật loại');
+    }
+
+    public function editSize(Request $request, $id)
+    {
+        if($request->getMethod() == 'GET') {
+            return view('admin.components.category.edit_size');
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'capacity' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator);
+        }
+
+        DB::table('sizes')->where('id_size', $id)->update([
+            'name' => $request->name,
+            'capacity' => $request->capacity
+        ]);
+        return redirect()-back()->with('success', 'Đã cập nhật size');
+    }
+
+    public function editUnit(Request $request, $id)
+    {
+        if($request->getMethod() == 'GET') {
+            return view('admin.components.category.edit_unit');
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required'
+        ]);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator);
+        }
+
+        DB::table('units')->where('id_unit', $id)->update([
+            'name' => $request->name
+        ]);
+        return redirect()-back()->with('success', 'Đã cập nhật đơn vị tính');
     }
 }
